@@ -87,7 +87,7 @@ OCD_grad_sm_10(isnan(grad_doxy_max_sm_10))=nan;
 TCD_grad_sm_15(isnan(grad_temp_max_sm_15))=nan;
 OCD_grad_sm_15(isnan(grad_doxy_max_sm_15))=nan;
 
-pr = 306110; % AS = 305118 | double 305000 | bad one? 304100 | good ctd tcd 30000 | shelf 30400/30500
+pr = 305118; % AS = 305118 | double 305000 | bad one? 304100 | good ctd tcd 30000 | shelf 30400/30500
 % surface with not tcd really 306100 | goot tcd/ocd 306050 | confusing 306110;
 
 % figure('visible','off')
