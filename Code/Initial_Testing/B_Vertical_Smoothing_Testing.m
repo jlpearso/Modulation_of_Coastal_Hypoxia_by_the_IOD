@@ -305,37 +305,9 @@ sp = 0.015;
 pad = 0.015;
 mar = 0.015;
 
-% unsmoothed TCD
-subaxis(2,4,1, 'Spacing', sp, 'Padding', pad,'Margin',mar)
-m_proj('mercator','longitudes',[30,120], ...
-           'latitudes',[-20,30]);
-hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave); shading flat;
-m_coast('patch',[.7 .7 .7],'edgecolor','none');
-m_grid('background color','k');
-c = colorbar;
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
-delete(colorbar);
-title('Unsmoothed')
-caxis([20,160])
-
-% unsmoothed OCD
-subaxis(2,4,5, 'Spacing', sp, 'Padding', pad,'Margin',mar)
-m_proj('mercator','longitudes',[30,120], ...
-           'latitudes',[-20,30]);
-hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave); shading flat;
-m_coast('patch',[.7 .7 .7],'edgecolor','none');
-m_grid('background color','k');
-c = colorbar;
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
-delete(colorbar);
-caxis([20,160])
 
 % window 5 smoothed TCD
-subaxis(2,4,2, 'Spacing', sp, 'Padding', pad,'Margin',mar)
+subaxis(2,3,1, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -346,10 +318,10 @@ c = colorbar;
 colormap(coolwarm);
 delete(colorbar);
 title('Window Length 5 - Unsmoothed')
-caxis([20,160])
+caxis([-10,10])
 
 % window 5 smoothed OCD
-subaxis(2,4,6, 'Spacing', sp, 'Padding', pad,'Margin',mar)
+subaxis(2,3,4, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -359,10 +331,10 @@ m_grid('background color','k');
 c = colorbar;
 colormap(coolwarm);
 delete(colorbar);
-caxis([20,160])
+caxis([-10,10])
 
 % window 10 smoothed TCD
-subaxis(2,4,3, 'Spacing', sp, 'Padding', pad,'Margin',mar)
+subaxis(2,3,2, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -373,10 +345,10 @@ c = colorbar;
 colormap(coolwarm);
 delete(colorbar);
 title('Window Length 10')
-caxis([20,160])
+caxis([-10,10])
 
 % window 10 smoothed OCD
-subaxis(2,4,7, 'Spacing', sp, 'Padding', pad,'Margin',mar)
+subaxis(2,3,5, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -386,11 +358,11 @@ m_grid('background color','k');
 c = colorbar;
 colormap(coolwarm);
 delete(colorbar);
-caxis([20,160])
+caxis([-10,10])
 
 
 % window 15 smoothed TCD
-subaxis(2,4,4, 'Spacing', sp, 'Padding', pad,'Margin',mar)
+subaxis(2,3,3, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -401,10 +373,10 @@ c = colorbar;
 ylabel(c,'TCD')
 colormap(coolwarm);
 title('Window Length 15')
-caxis([20,160])
+caxis([-10,10])
 
 % window 15 smoothed OCD
-subaxis(2,4,8, 'Spacing', sp, 'Padding', pad,'Margin',mar)
+subaxis(2,3,6, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -414,12 +386,13 @@ m_grid('background color','k');
 c = colorbar;
 ylabel(c,'OCD')
 colormap(coolwarm);
-caxis([20,160])
+caxis([-10,10])
 
 
 
 % save png
-outfn = ['TCD_OCD_Smoothing_qc_thresh_' num2str(qc_thresh)  '.png'];
+outfn = ['TCD_OCD_Smoothing_Anomaly_top
+    qc_thresh_' num2str(qc_thresh)  '.png'];
 print(gcf,[outfp outfn],'-dpng','-r300'); 
 
 % %% Smoothed Profiles ======================================================
