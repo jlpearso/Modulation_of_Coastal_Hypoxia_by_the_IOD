@@ -12,7 +12,7 @@ close all; clear all; clc; warning off;
 %--------------------------------------------------------------------------
 
 plot_fig = 1;       % set to 1 to plot figs, 0 to supress
-qc_thresh = 10;     % the min no. of pts that must be in each profile
+qc_thresh = 3;     % the min no. of pts that must be in each profile
 
 %--------------------------------------------------------------------------
 % Paths
@@ -188,7 +188,7 @@ if plot_fig == 1
     subaxis(1,2,2, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
     
     tot_bars=[qc_struc.doxy_total_no_pr qc_struc.temp_total_no_pr qc_struc.psal_total_no_pr];
-    per_bars = qc_bars./tot_bars;
+    per_bars = round((qc_bars./tot_bars).*100,2);
     colors = {[0 0.4470 0.7410],[0.4940 0.1840 0.5560],[0.4660 0.6740 0.1880]};
     
     h = bar(1:3,per_bars,'FaceColor','flat');

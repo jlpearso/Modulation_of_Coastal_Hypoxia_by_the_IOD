@@ -378,7 +378,7 @@ m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
 % ylabel(c,'TCD')
-colormap(coolwarm);
+oldcmap = colormap(coolwarm);
 delete(colorbar);
 title('Window Length 5 - Unsmoothed')
 % xlabel('Longitude')
