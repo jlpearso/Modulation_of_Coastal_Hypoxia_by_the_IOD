@@ -391,8 +391,7 @@ caxis([-10,10])
 
 
 % save png
-outfn = ['TCD_OCD_Smoothing_Anomaly_top
-    qc_thresh_' num2str(qc_thresh)  '.png'];
+outfn = ['TCD_OCD_Smoothing_Anomaly_qc_thresh_' num2str(qc_thresh)  '.png'];
 print(gcf,[outfp outfn],'-dpng','-r300'); 
 
 % %% Smoothed Profiles ======================================================
