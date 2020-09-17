@@ -155,22 +155,22 @@ par.binwid = 1;
 [TCD_grad_grid,TCD_grad_grid_ave,TCD_grad_grid_sd,bincounts_T,lon_grid,lat_grid] = latlon_var_bin(TCD_grad,lon,lat,par);
 [OCD_grad_grid,OCD_grad_grid_ave,OCD_grad_grid_sd,bincounts_O,~,~] = latlon_var_bin(OCD_grad,lon,lat,par);
 
-% [TCD_grad_grid_vals_sm_5,TCD_grad_grid_sm_5,bincounts_T_sm_5,~,~] = latlon_var_bin(TCD_grad_sm_5,lon,lat,par);
-% [OCD_grad_grid_vals_sm_5,OCD_grad_grid_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(OCD_grad_sm_5,lon,lat,par);
+[TCD_grad_grid_sm_5,TCD_grad_grid_ave_sm_5,TCD_grad_grid_sd_sm_5,bincounts_T_sm_5,~,~] = latlon_var_bin(TCD_grad_sm_5,lon,lat,par);
+[OCD_grad_grid_sm_5,OCD_grad_grid_ave_sm_5,OCD_grad_grid_sd_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(OCD_grad_sm_5,lon,lat,par);
+
+% [TCD_grad_grid_sm_10,TCD_grad_grid_ave_sm_10,TCD_grad_grid_sd_sm_10,bincounts_T_sm_,~,~] = latlon_var_bin(TCD_grad_sm_10,lon,lat,par);
+% [OCD_grad_grid_sm_10,OCD_grad_grid_ave_sm_10,OCD_grad_grid_sd_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(OCD_grad_sm_10,lon,lat,par);
 % 
-% [TCD_grad_grid_vals_sm_10,TCD_grad_grid_sm_10,bincounts_T_sm_10,~,~] = latlon_var_bin(TCD_grad_sm_10,lon,lat,par);
-% [OCD_grad_grid_vals_sm_10,OCD_grad_grid_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(OCD_grad_sm_10,lon,lat,par);
-% 
-% [TCD_grad_grid_vals_sm_15,TCD_grad_grid_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(TCD_grad_sm_15,lon,lat,par);
-% [OCD_grad_grid_vals_sm_15,OCD_grad_grid_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(OCD_grad_sm_15,lon,lat,par);
+% [TCD_grad_grid_sm_15,TCD_grad_grid_ave_sm_15,TCD_grad_grid_sd_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(TCD_grad_sm_15,lon,lat,par);
+% [OCD_grad_grid_sm_15,OCD_grad_grid_ave_sm_15,OCD_grad_grid_sd_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(OCD_grad_sm_15,lon,lat,par);
 
 
 % plot binned values
 figure('visible','off')
 setfigsize(2000,800)
 
-% unsmoothed
-% subaxis(2,4,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+% unsmoothed TCD
+subaxis(2,4,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -178,30 +178,67 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-ylabel(c,'TCD')
+% ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
+delete(colorbar);
 title('Unsmoothed')
+% xlabel('Longitude')
+ylabel('Latitiude')
+caxis([20,160])
+
+% unsmoothed OCD
+subaxis(2,4,4, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+ylabel(c,'OCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+delete(colorbar);
+% title('Unsmoothed')
 xlabel('Longitude')
 ylabel('Latitiude')
 caxis([20,160])
 
-% % window 5 smoothed
-% subaxis(2,4,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
-% m_proj('mercator','longitudes',[30,120], ...
-%            'latitudes',[-20,30]);
-% hold on
-% m_pcolor(lon_grid,lat_grid,TCD_grad_grid); shading flat;
-% m_coast('patch',[.7 .7 .7],'edgecolor','none');
-% m_grid('background color','k');
-% c = colorbar;
-% ylabel(c,'TCD')
-% oldcmap = colormap('jet');
-% colormap( flipud(oldcmap) );
-% title('Unsmoothed')
+% window 5 smoothed TCD
+subaxis(2,4,2, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+ylabel(c,'TCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+delete(colorbar);
+title('Window Length 5')
 % xlabel('Longitude')
 % ylabel('Latitiude')
-% caxis([20,160])
+caxis([20,160])
+
+% window 5 smoothed OCD
+subaxis(2,4,5, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+ylabel(c,'OCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+title('Window Length 5')
+xlabel('Longitude')
+ylabel('Latitiude')
+caxis([20,160])
 
 % save png
 outfn = ['TCD_OCD_Smoothing_qc_thresh_' num2str(qc_thresh)  '.png'];
