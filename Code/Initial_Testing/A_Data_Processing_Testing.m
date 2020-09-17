@@ -217,7 +217,7 @@ if plot_fig == 1
     for vv = 1:length(vars)
         
         % plot color coded locations of profiles that are affected by type
-        subaxis(1,3,vv, 'Spacing', 0.01, 'Padding', 0.015, 'MR',0.01, 'ML',0.01, 'MT',0.03, 'MB',0.125);
+        subaxis(1,3,vv, 'Spacing', 0.01, 'Padding', 0.015, 'MR',0.01, 'ML',0.01, 'MT',0.05, 'MB',0.2);
 
         m_proj('mercator','longitudes',[30,120], ...
                    'latitudes',[-20,30]);
