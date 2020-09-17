@@ -12,7 +12,7 @@ close all; clear all; clc; warning off;
 %--------------------------------------------------------------------------
 
 plot_fig = 1;       % set to 1 to plot figs, 0 to supress
-qc_thresh = 10;     % the min no. of pts that must be in each profile
+qc_thresh = 3;     % the min no. of pts that must be in each profile
 
 %--------------------------------------------------------------------------
 % Paths
