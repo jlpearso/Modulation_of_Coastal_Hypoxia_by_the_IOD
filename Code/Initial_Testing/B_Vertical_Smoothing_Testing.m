@@ -158,11 +158,11 @@ par.binwid = 1;
 [TCD_grad_grid_sm_5,TCD_grad_grid_ave_sm_5,TCD_grad_grid_sd_sm_5,bincounts_T_sm_5,~,~] = latlon_var_bin(TCD_grad_sm_5,lon,lat,par);
 [OCD_grad_grid_sm_5,OCD_grad_grid_ave_sm_5,OCD_grad_grid_sd_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(OCD_grad_sm_5,lon,lat,par);
 
-% [TCD_grad_grid_sm_10,TCD_grad_grid_ave_sm_10,TCD_grad_grid_sd_sm_10,bincounts_T_sm_,~,~] = latlon_var_bin(TCD_grad_sm_10,lon,lat,par);
-% [OCD_grad_grid_sm_10,OCD_grad_grid_ave_sm_10,OCD_grad_grid_sd_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(OCD_grad_sm_10,lon,lat,par);
-% 
-% [TCD_grad_grid_sm_15,TCD_grad_grid_ave_sm_15,TCD_grad_grid_sd_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(TCD_grad_sm_15,lon,lat,par);
-% [OCD_grad_grid_sm_15,OCD_grad_grid_ave_sm_15,OCD_grad_grid_sd_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(OCD_grad_sm_15,lon,lat,par);
+[TCD_grad_grid_sm_10,TCD_grad_grid_ave_sm_10,TCD_grad_grid_sd_sm_10,bincounts_T_sm_,~,~] = latlon_var_bin(TCD_grad_sm_10,lon,lat,par);
+[OCD_grad_grid_sm_10,OCD_grad_grid_ave_sm_10,OCD_grad_grid_sd_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(OCD_grad_sm_10,lon,lat,par);
+
+[TCD_grad_grid_sm_15,TCD_grad_grid_ave_sm_15,TCD_grad_grid_sd_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(TCD_grad_sm_15,lon,lat,par);
+[OCD_grad_grid_sm_15,OCD_grad_grid_ave_sm_15,OCD_grad_grid_sd_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(OCD_grad_sm_15,lon,lat,par);
 
 
 % plot binned values
@@ -188,7 +188,7 @@ ylabel('Latitiude')
 caxis([20,160])
 
 % unsmoothed OCD
-subaxis(2,4,4, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+subaxis(2,4,5, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -196,7 +196,7 @@ m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-ylabel(c,'OCD')
+% ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
@@ -214,7 +214,7 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-ylabel(c,'TCD')
+% ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
@@ -224,7 +224,7 @@ title('Window Length 5')
 caxis([20,160])
 
 % window 5 smoothed OCD
-subaxis(2,4,5, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+subaxis(2,4,6, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -232,148 +232,221 @@ m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
+% ylabel(c,'OCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+% title('Window Length 5')
+xlabel('Longitude')
+% ylabel('Latitiude')
+caxis([20,160])
+
+% window 10 smoothed TCD
+subaxis(2,4,3, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_10); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+% ylabel(c,'TCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+delete(colorbar);
+title('Window Length 10')
+% xlabel('Longitude')
+% ylabel('Latitiude')
+caxis([20,160])
+
+% window 10 smoothed OCD
+subaxis(2,4,7, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_10); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+% ylabel(c,'OCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+% title('Window Length 10')
+xlabel('Longitude')
+% ylabel('Latitiude')
+caxis([20,160])
+
+
+% window 15 smoothed TCD
+subaxis(2,4,4, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_15); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+ylabel(c,'TCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+delete(colorbar);
+title('Window Length 15')
+% xlabel('Longitude')
+% ylabel('Latitiude')
+caxis([20,160])
+
+% window 15 smoothed OCD
+subaxis(2,4,8, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_15); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
 ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
-title('Window Length 5')
+% title('Window Length 15')
 xlabel('Longitude')
-ylabel('Latitiude')
+% ylabel('Latitiude')
 caxis([20,160])
+
+
 
 % save png
 outfn = ['TCD_OCD_Smoothing_qc_thresh_' num2str(qc_thresh)  '.png'];
 print(gcf,[outfp outfn],'-dpng','-r300'); 
 
-%% Smoothed Profiles ======================================================
-%{
-
-    This section calculates the largest negative (i.e. min) gradient for
-    each profile and counts it as the cline depth for various levels of
-    vertical smoothing using a moving mean.
-
-%}
-%==========================================================================
-
-
-% plot individual profiles
-for pp = 1:length(profiles)
-    pr = profiles(pp);
-    
-    figure('visible','off')
-    setfigsize(1300,750)
-
-
-    % Plot Dissolved Oxygen ===================================================
-
-    subaxis(1,2,1, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
-    
-    % bottom x axis
-    l1 = plot(grad_doxy(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
-    ax1 = gca; % current axes
-    hold(ax1,'on')
-    l2 = plot(grad_doxy_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
-    l3 = plot(grad_doxy_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
-    l4 = plot(grad_doxy_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
-    
-    xlabel(ax1,'Dissolved Oxygen Gradient ($\mu mol/kg/dbar$)')
-    ylabel(ax1,'Pressure ($dbar$)')
-    yt = yticks;
-    yticklabels(ax1,sprintfc('%d',-1*yt))
-
-    % top x axis
-    ax1_pos = ax1.Position; % position of first axes
-    ax2 = axes('Position',ax1_pos,...
-        'XAxisLocation','top',...
-        'YAxisLocation','right',...
-        'Color','none');
-
-    ax2.XColor = 'r';
-
-    l5 = line(doxy(:,pr),-1*pres,'Parent',ax2,'Color','r','linewidth',5);
-    xlims = xlim;
-    x = xlims(1):xlims(2); y = ones(size(x));
-    l6 = line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-    line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-    line(x,-1*OCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
-    line(x,-1*OCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
-    line(x,-1*OCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
-
-
-    xlabel(ax2,'Dissolved Oxygen ($\mu mol/kg$)')
-    yt = yticks;
-    yticklabels(ax2,sprintfc('%d',-1*yt))
-
-    % legend
-    l = legend( [l1;l2;l3;l4;l5;l6] ,...
-        {'Unsmoothed','Window Length = 5','Window Length = 10','Window Length = 15','Profile','OCD/TCD'});
-    set(l,'Position',[0.185 0.18 0.15 0.2]) % x,y,w,h
-
-
-    % Plot Temperature ========================================================
-
-    subaxis(1,2,2, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
-    l1 = plot(grad_temp(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
-    ax1 = gca; % current axes
-    hold(ax1,'on')
-    l2 = plot(grad_temp_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
-    l3 = plot(grad_temp_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
-    l4 = plot(grad_temp_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
-    xlabel(ax1,'Temperature Gradient ($^\circ C/dbar)$')
-    ylabel(ax1,'Pressure ($dbar$)')
-    yt = yticks;
-    yticklabels(ax1,sprintfc('%d',-1*yt))
-
-    ax1_pos = ax1.Position; % position of first axes
-    ax2 = axes('Position',ax1_pos,...
-        'XAxisLocation','top',...
-        'YAxisLocation','right',...
-        'Color','none');
-
-    ax2.XColor = 'r';
-
-    l5 = line(temp(:,pr),-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
-    xlims = xlim;
-    x = xlims(1):xlims(2); y = ones(size(x));
-    l6 = line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-    line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-    line(x,-1*TCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
-    line(x,-1*TCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
-    line(x,-1*TCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
-
-
-    xlabel(ax2,'Temperature ($^\circ C$)')
-    yt = yticks;
-    yticklabels(ax2,sprintfc('%d',-1*yt))
-
-
-    % create inset with location of profile
-    hf1=gcf;                                   
-    axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
-    m_proj('mercator','longitudes',[30,120], ...
-               'latitudes',[-20,30]);
-    hold on
-    m_scatter(lon(pr),lat(pr),200,'y.'); shading flat;
-    m_coast('patch',[.7 .7 .7],'edgecolor','none');
-    m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
-    title('Profile Location')
-
-    if type(pr) == 0
-        tp = 'ARGO CTD';
-    elseif type(pr) == 1
-        tp = 'ARGO BGC';
-    elseif type(pr) == 2
-        tp = 'WOD';
-    elseif type(pr) == 3
-        tp = 'GO SHIP';
-    end
-
-    supertitle(['Profile Number: ' num2str(pr)  ' (' tp ')'],18);
-    % tightfig_with_supertitle(gcf);
-    % tightfig;
-
-    % save png
-    outfn = ['Profile_no_' num2str(pr)  '.png'];
-    print(gcf,[outfp outfn],'-dpng','-r300'); 
-
-    close all;
-end
+% %% Smoothed Profiles ======================================================
+% %{
+% 
+%     This section calculates the largest negative (i.e. min) gradient for
+%     each profile and counts it as the cline depth for various levels of
+%     vertical smoothing using a moving mean.
+% 
+% %}
+% %==========================================================================
+% 
+% 
+% % plot individual profiles
+% for pp = 1:length(profiles)
+%     pr = profiles(pp);
+%     
+%     figure('visible','off')
+%     setfigsize(1300,750)
+% 
+% 
+%     % Plot Dissolved Oxygen ===================================================
+% 
+%     subaxis(1,2,1, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
+%     
+%     % bottom x axis
+%     l1 = plot(grad_doxy(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
+%     ax1 = gca; % current axes
+%     hold(ax1,'on')
+%     l2 = plot(grad_doxy_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
+%     l3 = plot(grad_doxy_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
+%     l4 = plot(grad_doxy_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
+%     
+%     xlabel(ax1,'Dissolved Oxygen Gradient ($\mu mol/kg/dbar$)')
+%     ylabel(ax1,'Pressure ($dbar$)')
+%     yt = yticks;
+%     yticklabels(ax1,sprintfc('%d',-1*yt))
+% 
+%     % top x axis
+%     ax1_pos = ax1.Position; % position of first axes
+%     ax2 = axes('Position',ax1_pos,...
+%         'XAxisLocation','top',...
+%         'YAxisLocation','right',...
+%         'Color','none');
+% 
+%     ax2.XColor = 'r';
+% 
+%     l5 = line(doxy(:,pr),-1*pres,'Parent',ax2,'Color','r','linewidth',5);
+%     xlims = xlim;
+%     x = xlims(1):xlims(2); y = ones(size(x));
+%     l6 = line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*OCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
+%     line(x,-1*OCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
+%     line(x,-1*OCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
+% 
+% 
+%     xlabel(ax2,'Dissolved Oxygen ($\mu mol/kg$)')
+%     yt = yticks;
+%     yticklabels(ax2,sprintfc('%d',-1*yt))
+% 
+%     % legend
+%     l = legend( [l1;l2;l3;l4;l5;l6] ,...
+%         {'Unsmoothed','Window Length = 5','Window Length = 10','Window Length = 15','Profile','OCD/TCD'});
+%     set(l,'Position',[0.185 0.18 0.15 0.2]) % x,y,w,h
+% 
+% 
+%     % Plot Temperature ========================================================
+% 
+%     subaxis(1,2,2, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
+%     l1 = plot(grad_temp(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
+%     ax1 = gca; % current axes
+%     hold(ax1,'on')
+%     l2 = plot(grad_temp_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
+%     l3 = plot(grad_temp_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
+%     l4 = plot(grad_temp_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
+%     xlabel(ax1,'Temperature Gradient ($^\circ C/dbar)$')
+%     ylabel(ax1,'Pressure ($dbar$)')
+%     yt = yticks;
+%     yticklabels(ax1,sprintfc('%d',-1*yt))
+% 
+%     ax1_pos = ax1.Position; % position of first axes
+%     ax2 = axes('Position',ax1_pos,...
+%         'XAxisLocation','top',...
+%         'YAxisLocation','right',...
+%         'Color','none');
+% 
+%     ax2.XColor = 'r';
+% 
+%     l5 = line(temp(:,pr),-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
+%     xlims = xlim;
+%     x = xlims(1):xlims(2); y = ones(size(x));
+%     l6 = line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*TCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
+%     line(x,-1*TCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
+%     line(x,-1*TCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
+% 
+% 
+%     xlabel(ax2,'Temperature ($^\circ C$)')
+%     yt = yticks;
+%     yticklabels(ax2,sprintfc('%d',-1*yt))
+% 
+% 
+%     % create inset with location of profile
+%     hf1=gcf;                                   
+%     axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
+%     m_proj('mercator','longitudes',[30,120], ...
+%                'latitudes',[-20,30]);
+%     hold on
+%     m_scatter(lon(pr),lat(pr),200,'y.'); shading flat;
+%     m_coast('patch',[.7 .7 .7],'edgecolor','none');
+%     m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
+%     title('Profile Location')
+% 
+%     if type(pr) == 0
+%         tp = 'ARGO CTD';
+%     elseif type(pr) == 1
+%         tp = 'ARGO BGC';
+%     elseif type(pr) == 2
+%         tp = 'WOD';
+%     elseif type(pr) == 3
+%         tp = 'GO SHIP';
+%     end
+% 
+%     supertitle(['Profile Number: ' num2str(pr)  ' (' tp ')'],18);
+%     % tightfig_with_supertitle(gcf);
+%     % tightfig;
+% 
+%     % save png
+%     outfn = ['Profile_no_' num2str(pr)  '.png'];
+%     print(gcf,[outfp outfn],'-dpng','-r300'); 
+% 
+%     close all;
+% end
