@@ -155,22 +155,57 @@ par.binwid = 1;
 [TCD_grad_grid_vals,TCD_grad_grid,bincounts_T,lon_grid,lat_grid] = latlon_var_bin(TCD_grad,lon,lat,par);
 [OCD_grad_grid_vals,OCD_grad_grid,bincounts_O,~,~] = latlon_var_bin(OCD_grad,lon,lat,par);
 
-[TCD_grad_grid_vals_sm_5,TCD_grad_grid_sm_5,bincounts_T_sm_5,~,~] = latlon_var_bin(TCD_grad_sm_5,lon,lat,par);
-[OCD_grad_grid_vals_sm_5,OCD_grad_grid_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(OCD_grad_sm_5,lon,lat,par);
-
-[TCD_grad_grid_vals_sm_10,TCD_grad_grid_sm_10,bincounts_T_sm_10,~,~] = latlon_var_bin(TCD_grad_sm_10,lon,lat,par);
-[OCD_grad_grid_vals_sm_10,OCD_grad_grid_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(OCD_grad_sm_10,lon,lat,par);
-
-[TCD_grad_grid_vals_sm_15,TCD_grad_grid_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(TCD_grad_sm_15,lon,lat,par);
-[OCD_grad_grid_vals_sm_15,OCD_grad_grid_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(OCD_grad_sm_15,lon,lat,par);
+% [TCD_grad_grid_vals_sm_5,TCD_grad_grid_sm_5,bincounts_T_sm_5,~,~] = latlon_var_bin(TCD_grad_sm_5,lon,lat,par);
+% [OCD_grad_grid_vals_sm_5,OCD_grad_grid_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(OCD_grad_sm_5,lon,lat,par);
+% 
+% [TCD_grad_grid_vals_sm_10,TCD_grad_grid_sm_10,bincounts_T_sm_10,~,~] = latlon_var_bin(TCD_grad_sm_10,lon,lat,par);
+% [OCD_grad_grid_vals_sm_10,OCD_grad_grid_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(OCD_grad_sm_10,lon,lat,par);
+% 
+% [TCD_grad_grid_vals_sm_15,TCD_grad_grid_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(TCD_grad_sm_15,lon,lat,par);
+% [OCD_grad_grid_vals_sm_15,OCD_grad_grid_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(OCD_grad_sm_15,lon,lat,par);
 
 
 % plot binned values
-figure 
-setfigsize(800,800)
+figure('visible','off')
+setfigsize(2000,800)
 
-subaxis(2,2,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+% unsmoothed
+% subaxis(2,4,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k');
+c = colorbar;
+ylabel(c,'TCD')
+oldcmap = colormap('jet');
+colormap( flipud(oldcmap) );
+title('Unsmoothed')
+xlabel('Longitude')
+ylabel('Latitiude')
+caxis([20,160])
 
+% % window 5 smoothed
+% subaxis(2,4,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
+% m_proj('mercator','longitudes',[30,120], ...
+%            'latitudes',[-20,30]);
+% hold on
+% m_pcolor(lon_grid,lat_grid,TCD_grad_grid); shading flat;
+% m_coast('patch',[.7 .7 .7],'edgecolor','none');
+% m_grid('background color','k');
+% c = colorbar;
+% ylabel(c,'TCD')
+% oldcmap = colormap('jet');
+% colormap( flipud(oldcmap) );
+% title('Unsmoothed')
+% xlabel('Longitude')
+% ylabel('Latitiude')
+% caxis([20,160])
+
+% save png
+outfn = ['TCD_OCD_Smoothing_qc_thresh_' num2str(qc_thresh)  '.png'];
+print(gcf,[outfp outfn],'-dpng','-r300'); 
 
 %% Smoothed Profiles ======================================================
 %{
@@ -187,7 +222,7 @@ subaxis(2,2,1, 'Spacing', 0.03, 'Padding', 0.03,'Margin',0.03)
 for pp = 1:length(profiles)
     pr = profiles(pp);
     
-    figure
+    figure('visible','off')
     setfigsize(1300,750)
 
 
@@ -301,7 +336,7 @@ for pp = 1:length(profiles)
 
     % save png
     outfn = ['Profile_no_' num2str(pr)  '.png'];
-    print(gcf,[outfp '/Profiles/' outfn],'-dpng','-r300'); 
+    print(gcf,[outfp outfn],'-dpng','-r300'); 
 
     close all;
 end

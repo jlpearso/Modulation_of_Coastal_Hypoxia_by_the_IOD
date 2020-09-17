@@ -167,7 +167,7 @@ if plot_fig == 1
     %----------------------------------------------------------------------
     % Bar Charts For QC Stats
     %----------------------------------------------------------------------
-    figure(1)
+    figure('visible','off')
     setfigsize(1200,800)
     
     % plot the total number of each variable that were affected
@@ -207,7 +207,7 @@ if plot_fig == 1
     % Locations For QC Stats and Type
     %----------------------------------------------------------------------
     
-    figure(2)
+    figure('visible','off')
     setfigsize(1800,400)
     
     colors = {[0 0.4470 0.7410],[0.4940 0.1840 0.5560],[0.4660 0.6740 0.1880],[0.8500 0.3250 0.0980]};
