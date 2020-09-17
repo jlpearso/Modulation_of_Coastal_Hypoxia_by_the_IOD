@@ -152,8 +152,8 @@ OCD_grad_sm_15(isnan(grad_doxy_min_sm_15))=nan;
 
 par.binwid = 1;
 
-[TCD_grad_grid_vals,TCD_grad_grid,bincounts_T,lon_grid,lat_grid] = latlon_var_bin(TCD_grad,lon,lat,par);
-[OCD_grad_grid_vals,OCD_grad_grid,bincounts_O,~,~] = latlon_var_bin(OCD_grad,lon,lat,par);
+[TCD_grad_grid,TCD_grad_grid_ave,TCD_grad_grid_sd,bincounts_T,lon_grid,lat_grid] = latlon_var_bin(TCD_grad,lon,lat,par);
+[OCD_grad_grid,OCD_grad_grid_ave,OCD_grad_grid_sd,bincounts_O,~,~] = latlon_var_bin(OCD_grad,lon,lat,par);
 
 % [TCD_grad_grid_vals_sm_5,TCD_grad_grid_sm_5,bincounts_T_sm_5,~,~] = latlon_var_bin(TCD_grad_sm_5,lon,lat,par);
 % [OCD_grad_grid_vals_sm_5,OCD_grad_grid_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(OCD_grad_sm_5,lon,lat,par);
@@ -174,7 +174,7 @@ setfigsize(2000,800)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid); shading flat;
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
