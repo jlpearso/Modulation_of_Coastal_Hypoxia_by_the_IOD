@@ -213,15 +213,15 @@ subaxis(2,4,2, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5); shading flat;
+% m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5); shading flat;
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5-TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
 % ylabel(c,'TCD')
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
+oldcmap = colormap(coolwarm);
 delete(colorbar);
-title('Window Length 5')
+title('Window Length 5 - Unsmoothed')
 % xlabel('Longitude')
 % ylabel('Latitiude')
 caxis([20,160])
