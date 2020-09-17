@@ -7,41 +7,6 @@ outfp = 'Figures/';
 
 plot_fig = 0;
 
-fname = 'Profiles_temp_psal_doxy.nc';
-readncfile
-
-% convert all to doubles - get some errors later if you don't
-doxy = double(doxy);
-temp = double(temp);
-pres = double(pres);
-psal = double(psal);
-lat = double(lat);
-lon = double(lon);
-
-%% Find Total Number of Profiles/ Time of Profiles%%
-
-base = datenum('01-01-1800 00:00:00');
-date_number = base + double(time);
-date_string = datestr(date_number);
-
-[years,months,days] = ymd(datetime(date_string));
-
-for mm = 1:length(months)
-    
-    if months(mm) == 3 || months(mm) == 4 || months(mm) == 5
-        seasons(mm) = 1;
-        seasons_str{mm} = 'MAM';
-    elseif months(mm) == 6 || months(mm) == 7 || months(mm) == 8
-        seasons(mm) = 2;
-        seasons_str{mm} = 'JJA';
-    elseif months(mm) == 9 || months(mm) == 10 || months(mm) == 11
-        seasons(mm) = 3;
-        seasons_str{mm} = 'SON';
-    else
-        seasons(mm) = 4;
-        seasons_str{mm} = 'DJF';
-    end
-end
 
 if plot_fig == 1
 % %--------------------------------------------------------------------------
