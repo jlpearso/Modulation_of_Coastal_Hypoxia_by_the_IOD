@@ -181,7 +181,6 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
@@ -377,12 +376,9 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5-TCD_grad_grid_ave); shading fl
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'TCD')
 colormap(coolwarm);
 delete(colorbar);
 title('Window Length 5 - Unsmoothed')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 5 smoothed OCD

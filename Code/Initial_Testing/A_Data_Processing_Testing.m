@@ -24,7 +24,7 @@ addpath(genpath('../../Local_Tools/'))
 % add data path
 addpath(genpath('../../Data/'))
 
-outfp = '../../Figures/Data_Processing/';
+outfp = '../../Figures/Testing/Data_Processing/';
 outdp = '../../Data/Testing/Processed/';
 
 %--------------------------------------------------------------------------
