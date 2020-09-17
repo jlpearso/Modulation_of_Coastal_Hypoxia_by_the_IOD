@@ -238,7 +238,7 @@ c = colorbar;
 % ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
-
+delete(colorbar);
 % title('Window Length 5')
 % xlabel('Longitude')
 % ylabel('Latitiude')
