@@ -46,7 +46,7 @@ var_vec = var(:);
 % use a max of 5 cores in the parfor loop
 for xx = 1:length(lonbins)
     parfor yy = 1:length(latbins)
-        ind = lat_disc == yy & lon_disc == xx;s
+        ind = lat_disc == yy & lon_disc == xx;
         if ~isempty(lat_vec(ind))
             var_binned{yy,xx} = var_vec(ind);
             bincounts(yy,xx) = length(var_vec(ind));
