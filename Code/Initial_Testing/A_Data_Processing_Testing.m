@@ -12,7 +12,7 @@ close all; clear all; clc; warning off;
 %--------------------------------------------------------------------------
 
 plot_fig = 1;       % set to 1 to plot figs, 0 to supress
-qc_thresh = 3;     % the min no. of pts that must be in each profile
+qc_thresh = 10;     % the min no. of pts that must be in each profile
 
 %--------------------------------------------------------------------------
 % Paths
@@ -197,7 +197,7 @@ if plot_fig == 1
     end
     set(gca,'xticklabel',varnames)
     
-    title('Percentage of Total No. Profiles')
+    title('Percentage of QCed Profiles')
     
     % save png
     outfn = ['Profile_qc_numbers_qc_thresh_' num2str(qc_thresh)  '.png'];
@@ -217,7 +217,7 @@ if plot_fig == 1
     for vv = 1:length(vars)
         
         % plot color coded locations of profiles that are affected by type
-        subaxis(1,3,vv, 'Spacing', 0.01, 'Padding', 0.015, 'MR',0.01, 'ML',0.01, 'MT',0.05, 'MB',0.2);
+        subaxis(1,3,vv, 'Spacing', 0.01, 'Padding', 0.015, 'MR',0.01, 'ML',0.01, 'MT',0.1, 'MB',0.2);
 
         m_proj('mercator','longitudes',[30,120], ...
                    'latitudes',[-20,30]);

@@ -185,8 +185,6 @@ oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
 title('Unsmoothed')
-% xlabel('Longitude')
-ylabel('Latitiude')
 caxis([20,160])
 
 % unsmoothed OCD
@@ -198,13 +196,9 @@ m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
-% title('Unsmoothed')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 5 smoothed TCD
@@ -216,13 +210,10 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
 title('Window Length 5 - Unsmoothed')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 5 smoothed OCD
@@ -234,13 +225,9 @@ m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
-% title('Window Length 5')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 10 smoothed TCD
@@ -252,13 +239,10 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_10); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
 title('Window Length 10')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 10 smoothed OCD
@@ -270,13 +254,9 @@ m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_10); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
-% title('Window Length 10')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 
@@ -292,10 +272,7 @@ c = colorbar;
 ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
-% delete(colorbar);
 title('Window Length 15')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 15 smoothed OCD
@@ -310,9 +287,6 @@ c = colorbar;
 ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
-% title('Window Length 15')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 
@@ -340,13 +314,10 @@ m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'TCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
 title('Unsmoothed')
-% xlabel('Longitude')
-ylabel('Latitiude')
 caxis([20,160])
 
 % unsmoothed OCD
@@ -358,13 +329,9 @@ m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'OCD')
 oldcmap = colormap('jet');
 colormap( flipud(oldcmap) );
 delete(colorbar);
-% title('Unsmoothed')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 5 smoothed TCD
@@ -386,17 +353,12 @@ subaxis(2,4,6, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5); shading flat;
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5-OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'OCD')
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
+colormap(coolwarm);
 delete(colorbar);
-% title('Window Length 5')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 10 smoothed TCD
@@ -404,17 +366,13 @@ subaxis(2,4,3, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_10); shading flat;
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_10-TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'TCD')
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
+colormap(coolwarm);
 delete(colorbar);
 title('Window Length 10')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 10 smoothed OCD
@@ -422,17 +380,12 @@ subaxis(2,4,7, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_10); shading flat;
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_10-OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
-% ylabel(c,'OCD')
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
+colormap(coolwarm);
 delete(colorbar);
-% title('Window Length 10')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 
@@ -441,17 +394,13 @@ subaxis(2,4,4, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_15); shading flat;
+m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_15-TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
 ylabel(c,'TCD')
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
-% delete(colorbar);
+colormap(coolwarm);
 title('Window Length 15')
-% xlabel('Longitude')
-% ylabel('Latitiude')
 caxis([20,160])
 
 % window 15 smoothed OCD
@@ -459,16 +408,12 @@ subaxis(2,4,8, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_15); shading flat;
+m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_15-OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
 ylabel(c,'OCD')
-oldcmap = colormap('jet');
-colormap( flipud(oldcmap) );
-% title('Window Length 15')
-% xlabel('Longitude')
-% ylabel('Latitiude')
+colormap(coolwarm);
 caxis([20,160])
 
 
