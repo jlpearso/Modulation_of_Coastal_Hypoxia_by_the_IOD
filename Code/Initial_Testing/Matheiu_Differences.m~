@@ -14,8 +14,8 @@ close all; clear all; clc; warning off;
 plot_fig = 1;       % set to 1 to plot figs, 0 to supress
 qc_thresh = 5;     % the min no. of pts that must be in each profile
 
-lat_lon_box_N = [10,22;85,95];
-lat_lon_box_S = [-5,10;72,90];
+latlon_lim_box_N = [10,22;85,95];
+latlon_lim_box_S = [-5,10;72,90];
 
 %--------------------------------------------------------------------------
 % Paths
@@ -62,8 +62,8 @@ load([indp infn])
 
 % find the mean data bounded by the N box
 
-ind_N = lat >= lat_lon_box_N(1,1) & lat <= lat_lon_box_N(1,2) & ...
-    lon >= lat_lon_box_N(2,1) & lon <= lat_lon_box_N(2,2);  
+ind_N = lat >= latlon_lim_box_N(1,1) & lat <= latlon_lim_box_N(1,2) & ...
+    lon >= latlon_lim_box_N(2,1) & lon <= latlon_lim_box_N(2,2);  
 
 lat_box_N = lat(ind_N);
 lon_box_N = lon(ind_N);
@@ -88,8 +88,8 @@ mean_doxy_box_N = nanmean(doxy_box_N,2);
 
 
 % find the mean data bounded by the N box
-ind_S = lat >= lat_lon_box_S(1,1) & lat <= lat_lon_box_S(1,2) & ...
-    lon >= lat_lon_box_S(2,1) & lon <= lat_lon_box_S(2,2);  
+ind_S = lat >= latlon_lim_box_S(1,1) & lat <= latlon_lim_box_S(1,2) & ...
+    lon >= latlon_lim_box_S(2,1) & lon <= latlon_lim_box_S(2,2);  
 
 lat_box_S = lat(ind_S);
 lon_box_S = lon(ind_S);
@@ -184,6 +184,18 @@ xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
 l6 = line(x,-1*mean_TCD_grad_box_N.*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
 % l6 = line(x,-1*TCD_grad_box_N(:,pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+
+% create inset with location of profile
+hf1=gcf;                                   
+axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+lat_bb = latlon_lim_box_N
+m_scatter(lon(pr),lat(pr),200,'y.'); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
+title('Bounding Box')
 
 
 xlabel(ax2,'Temperature ($^\circ C$)')
