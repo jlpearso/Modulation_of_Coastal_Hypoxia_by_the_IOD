@@ -94,44 +94,17 @@ grad_temp_sm_15 = movmean(grad_temp,15,'omitnan');
 
 
 % find the largest negative gradient (min)
-[grad_temp_min,grad_temp_ind] = min(grad_temp);
-[grad_doxy_min,grad_doxy_ind] = min(grad_doxy);
+[grad_temp_min,grad_temp_min_ind] = min(grad_temp);
+[grad_doxy_min,grad_doxy_min_ind] = min(grad_doxy);
 
-[grad_temp_min_sm_5,grad_temp_ind_sm_5] = min(grad_temp_sm_5);
-[grad_doxy_min_sm_5,grad_doxy_ind_sm_5] = min(grad_doxy_sm_5);
+[grad_temp_min_sm_5,grad_temp_min_ind_sm_5] = min(grad_temp_sm_5);
+[grad_doxy_min_sm_5,grad_doxy_min_ind_sm_5] = min(grad_doxy_sm_5);
 
-[grad_temp_min_sm_10,grad_temp_ind_sm_10] = min(grad_temp_sm_10);
-[grad_doxy_min_sm_10,grad_doxy_ind_sm_10] = min(grad_doxy_sm_10);
+[grad_temp_min_sm_10,grad_temp_min_ind_sm_10] = min(grad_temp_sm_10);
+[grad_doxy_min_sm_10,grad_doxy_min_ind_sm_10] = min(grad_doxy_sm_10);
 
-[grad_temp_min_sm_15,grad_temp_ind_sm_15] = min(grad_temp_sm_15);
-[grad_doxy_min_sm_15,grad_doxy_ind_sm_15] = min(grad_doxy_sm_15);
-
-% % take the two largest negative gradients
-% [grad_temp_mink,grad_temp_mink_ind] = mink(grad_temp,2);
-% [grad_doxy_mink,grad_doxy_mink_ind] = mink(grad_doxy,2);
-% 
-% [grad_temp_mink_sm_5,grad_temp_mink_ind_sm_5] = mink(grad_temp_sm_5,2);
-% [grad_doxy_mink_sm_5,grad_doxy_mink_ind_sm_5] = mink(grad_doxy_sm_5,2);
-% 
-% [grad_temp_mink_sm_10,grad_temp_mink_ind_sm_10] = mink(grad_temp_sm_10,2);
-% [grad_doxy_mink_sm_10,grad_doxy_mink_ind_sm_10] = mink(grad_doxy_sm_10,2);
-% 
-% [grad_temp_mink_sm_15,grad_temp_mink_ind_sm_15] = mink(grad_temp_sm_15,2);
-% [grad_doxy_mink_sm_15,grad_doxy_mink_ind_sm_15] = mink(grad_doxy_sm_15,2);
-% 
-% % take the one closest to the surface
-% [grad_temp_min_ind,~] = min(grad_temp_mink_ind);
-% [grad_doxy_min_ind,~] = min(grad_doxy_mink_ind);
-% 
-% [grad_temp_min_ind_sm_5,~] = min(grad_temp_mink_ind_sm_5);
-% [grad_doxy_min_ind_sm_5,~] = min(grad_doxy_mink_ind_sm_5);
-% 
-% [grad_temp_min_ind_sm_10,~] = min(grad_temp_mink_ind_sm_10);
-% [grad_doxy_min_ind_sm_10,~] = min(grad_doxy_mink_ind_sm_10);
-% 
-% [grad_temp_min_ind_sm_15,~] = min(grad_temp_mink_ind_sm_15);
-% [grad_doxy_min_ind_sm_15,~] = min(grad_doxy_mink_ind_sm_15);
-
+[grad_temp_min_sm_15,grad_temp_min_ind_sm_15] = min(grad_temp_sm_15);
+[grad_doxy_min_sm_15,grad_doxy_min_ind_sm_15] = min(grad_doxy_sm_15);
 
 % take average pressures at the mins
 TCD_grad = ave_pres(grad_temp_min_ind);
@@ -159,19 +132,6 @@ OCD_grad_sm_10(isnan(grad_doxy_min_sm_10))=nan;
 
 TCD_grad_sm_15(isnan(grad_temp_min_sm_15))=nan;
 OCD_grad_sm_15(isnan(grad_doxy_min_sm_15))=nan;
-
-
-% TCD_grad(isnan(grad_temp(grad_temp_min_ind)))=nan;
-% OCD_grad(isnan(grad_doxy(grad_doxy_min_ind)))=nan;
-% 
-% TCD_grad_sm_5(isnan(grad_temp_sm_5(grad_temp_min_ind_sm_5)))=nan;
-% OCD_grad_sm_5(isnan(grad_doxy_sm_5(grad_doxy_min_ind_sm_5)))=nan;
-% 
-% TCD_grad_sm_10(isnan(grad_temp_sm_10(grad_temp_min_ind_sm_10)))=nan;
-% OCD_grad_sm_10(isnan(grad_doxy_sm_10(grad_doxy_min_ind_sm_10)))=nan;
-% 
-% TCD_grad_sm_15(isnan(grad_temp_sm_15(grad_temp_min_ind_sm_15)))=nan;
-% OCD_grad_sm_15(isnan(grad_doxy_sm_15(grad_doxy_min_ind_sm_15)))=nan;
 
 % put into 1 degree bins
 
