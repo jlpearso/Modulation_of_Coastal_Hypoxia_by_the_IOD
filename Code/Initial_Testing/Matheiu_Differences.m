@@ -409,11 +409,11 @@ doxy_box_N = doxy(:,ind_N);
 grad_temp_box_N = grad_temp(:,ind_N);
 grad_doxy_box_N = grad_doxy(:,ind_N);
 
-TCD_box_N = TCD_grad(ind_N);
-OCD_box_N = OCD_grad(ind_N);
+TCD_grad_box_N = TCD_grad(ind_N);
+OCD_grad_box_N = OCD_grad(ind_N);
 
-mean_TCD_grad_box_N = nanmean(TCD_box_N);
-mean_OCD_grad_box_N = nanmean(OCD_box_N);
+mean_TCD_grad_box_N = nanmean(TCD_grad_box_N);
+mean_OCD_grad_box_N = nanmean(OCD_grad_box_N);
 
 mean_grad_temp_box_N = nanmean(grad_temp_box_N,2);
 mean_grad_doxy_box_N = nanmean(grad_doxy_box_N,2);
@@ -435,11 +435,11 @@ doxy_box_S = doxy(:,ind_S);
 grad_temp_box_S = grad_temp(:,ind_S);
 grad_doxy_box_S = grad_doxy(:,ind_S);
 
-TCD_box_S = TCD_grad(ind_S);
-OCD_box_S = OCD_grad(ind_S);
+TCD_grad_box_S = TCD_grad(ind_S);
+OCD_grad_box_S = OCD_grad(ind_S);
 
-mean_TCD_grad_box_S = nanmean(TCD_box_S);
-mean_OCD_grad_box_S = nanmean(OCD_box_S);
+mean_TCD_grad_box_S = nanmean(TCD_grad_box_S);
+mean_OCD_grad_box_S = nanmean(OCD_grad_box_S);
 
 mean_grad_temp_box_S = nanmean(grad_temp_box_S,2);
 mean_grad_doxy_box_S = nanmean(grad_doxy_box_S,2);
