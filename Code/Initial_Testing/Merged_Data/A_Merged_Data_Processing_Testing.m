@@ -19,10 +19,10 @@ qc_thresh = 3;     % the min no. of pts that must be in each profile
 %--------------------------------------------------------------------------
 
 % define and add function path
-addpath(genpath('../../Local_Tools/'))
+addpath(genpath('../../../Local_Tools/'))
 
 % add data path
-addpath(genpath('../../Data/'))
+addpath(genpath('../../../Data/'))
 
 outfp = '../../Figures/Testing/Data_Processing/';
 outdp = '../../Data/Testing/Processed/';
@@ -73,7 +73,6 @@ struc.lon = double(lon);
 struc.time = double(time);
 
 % create dates
-
 base = datenum('01-01-1800 00:00:00');
 struc.date_number = base + double(time);
 struc.date_string = datestr(struc.date_number);
