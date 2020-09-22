@@ -449,7 +449,7 @@ mean_doxy_box_S = nanmean(doxy_box_S,2);
 
 
 % Plot Box N ===================================================
-
+pr = 1;
 figure('visible','off')
 setfigsize(1300,750)
 
@@ -458,7 +458,8 @@ setfigsize(1300,750)
 subaxis(1,2,1, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
 
 % bottom x axis
-l1 = plot(mean_grad_doxy_box_N,-1*ave_pres(:,1),'k','linewidth',3);
+% l1 = plot(mean_grad_doxy_box_N,-1*ave_pres(:,1),'k','linewidth',3);
+l1 = plot(grad_doxy_box_N(:,pr),-1*ave_pres(:,1),'k','linewidth',3);
 ax1 = gca; % current axes
 
 xlabel(ax1,'Dissolved Oxygen Gradient ($\mu mol/kg/dbar$)')
@@ -475,7 +476,8 @@ ax2 = axes('Position',ax1_pos,...
 
 ax2.XColor = 'r';
 
-l5 = line(mean_doxy_box_N,-1*pres,'Parent',ax2,'Color','r','linewidth',5);
+% l5 = line(mean_doxy_box_N,-1*pres,'Parent',ax2,'Color','r','linewidth',5);
+l5 = line(doxy_box_N(:,pr),-1*pres,'Parent',ax2,'Color','r','linewidth',5);
 xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
 l6 = line(x,-1*mean_OCD_grad_box_N.*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
@@ -494,7 +496,8 @@ yticklabels(ax2,sprintfc('%d',-1*yt))
 % Plot Temperature ========================================================
 
 subaxis(1,2,2, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
-l1 = plot(mean_grad_temp_box_N,-1*ave_pres(:,1),'k','linewidth',3);
+% l1 = plot(mean_grad_temp_box_N,-1*ave_pres(:,1),'k','linewidth',3);
+l1 = plot(grad_temp_box_N(:,pr),-1*ave_pres(:,1),'k','linewidth',3);
 ax1 = gca; % current axes
 xlabel(ax1,'Temperature Gradient ($^\circ C/dbar)$')
 ylabel(ax1,'Pressure ($dbar$)')
@@ -509,10 +512,12 @@ ax2 = axes('Position',ax1_pos,...
 
 ax2.XColor = 'r';
 
-l5 = line(mean_temp_box_N,-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
+% l5 = line(mean_temp_box_N,-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
+l5 = line(temp_box_N(:,pr),-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
 xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
-l6 = line(x,-1*mean_TCD_grad_box_N.*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+% l6 = line(x,-1*mean_TCD_grad_box_N.*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+l6 = line(x,-1*TCD_grad_box_N(:,pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
 
 
 xlabel(ax2,'Temperature ($^\circ C$)')
