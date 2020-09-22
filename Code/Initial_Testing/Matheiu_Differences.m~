@@ -443,6 +443,8 @@ ind_N = lat >= lat_lon_box_N(1,1) & lat <= lat_lon_box_N(1,2) & ...
 lat_box_N = lat(ind);
 lon_box_N = lon(ind);
 
+ave_pres_box_N = ave_pres(:,ind);
+
 temp_box_N = temp(:,ind);
 doxy_box_N = doxy(:,ind);
 
@@ -498,7 +500,7 @@ setfigsize(1300,750)
 subaxis(1,2,1, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
 
 % bottom x axis
-l1 = plot(mean_grad_doxy_box_N,-1*ave_pres(:,1),'k','linewidth',3);
+l1 = plot(mean_grad_doxy_box_N,-1*ave_pres(:,pr),'k','linewidth',3);
 ax1 = gca; % current axes
 
 xlabel(ax1,'Dissolved Oxygen Gradient ($\mu mol/kg/dbar$)')
@@ -515,10 +517,14 @@ ax2 = axes('Position',ax1_pos,...
 
 ax2.XColor = 'r';
 
-l5 = line(mean_doxy_box_N,-1*pres,'Parent',ax2,'Color','r','linewidth',5);
+l5 = line(doxy(:,pr),-1*pres,'Parent',ax2,'Color','r','linewidth',5);
 xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
-l6 = line(x,-1*mean_OCD_grad_box_N.*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+l6 = line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+line(x,-1*OCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
+line(x,-1*OCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
+line(x,-1*OCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
 
 
 xlabel(ax2,'Dissolved Oxygen ($\mu mol/kg$)')
@@ -534,8 +540,12 @@ set(l,'Position',[0.185 0.18 0.15 0.2]) % x,y,w,h
 % Plot Temperature ========================================================
 
 subaxis(1,2,2, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
-l1 = plot(mean_grad_temp_box_N,-1*ave_pres(:,1),'k','linewidth',3);
+l1 = plot(grad_temp(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
 ax1 = gca; % current axes
+hold(ax1,'on')
+l2 = plot(grad_temp_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
+l3 = plot(grad_temp_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
+l4 = plot(grad_temp_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
 xlabel(ax1,'Temperature Gradient ($^\circ C/dbar)$')
 ylabel(ax1,'Pressure ($dbar$)')
 yt = yticks;
@@ -549,10 +559,14 @@ ax2 = axes('Position',ax1_pos,...
 
 ax2.XColor = 'r';
 
-l5 = line(mean_temp_box_N,-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
+l5 = line(temp(:,pr),-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
 xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
-l6 = line(x,-1*mean_TCD_grad_box_N.*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+l6 = line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+line(x,-1*TCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
+line(x,-1*TCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
+line(x,-1*TCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
 
 
 xlabel(ax2,'Temperature ($^\circ C$)')
@@ -560,8 +574,20 @@ yt = yticks;
 yticklabels(ax2,sprintfc('%d',-1*yt))
 
 
+% % create inset with location of profile
+% hf1=gcf;                                   
+% axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
+% m_proj('mercator','longitudes',[30,120], ...
+%            'latitudes',[-20,30]);
+% hold on
+% m_scatter(lon(pr),lat(pr),200,'y.'); shading flat;
+% m_coast('patch',[.7 .7 .7],'edgecolor','none');
+% m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
+% title('Profile Location')
+
+
 % save png
-outfn = 'Box_N_Mean_Profile.png';
+outfn = ['Profile_no_' num2str(pr)  '.png'];
 print(gcf,[outfp outfn],'-dpng','-r300'); 
 
 
