@@ -28,13 +28,13 @@ addpath(genpath('../../Local_Tools/'))
 addpath(genpath('../../Data/'))
 
 outfp = '../../Figures/Testing/Vertical_Smoothing/';
-indp = '../../Data/Testing/Processed/';
+indp = '../../Data/Testing/Smoothed/';
 
 %--------------------------------------------------------------------------
 % Filesnames
 %--------------------------------------------------------------------------
 
-infn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_smoothing_testing.mat'];
+infn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_smoothed.mat'];
 
 %--------------------------------------------------------------------------
 % Other

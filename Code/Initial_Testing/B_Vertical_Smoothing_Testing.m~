@@ -32,13 +32,14 @@ addpath(genpath('../../Data/'))
 
 outfp = '../../Figures/Testing/Vertical_Smoothing/';
 indp = '../../Data/Testing/Processed/';
+outdp = '../../Data/Testing/Smoothed/';
 
 %--------------------------------------------------------------------------
 % Filesnames
 %--------------------------------------------------------------------------
 
 infn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_processed.mat'];
-outdfn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_processed.mat'];
+outdfn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_smoothing_testing.mat'];
 
 %--------------------------------------------------------------------------
 % Other
@@ -71,7 +72,7 @@ diff_pres = diff(pres);
 
 ave_pres = 0.5.*(circshift(pres,-1) + pres);
 ave_pres = ave_pres(1:end-1);
-ave_pres = repmat(ave_pres, [1,size(diff_temp,2)]);
+struc.ave_pres = repmat(ave_pres, [1,size(diff_temp,2)]);
 
 struc.grad_doxy = diff_doxy./diff_pres;
 struc.grad_temp = diff_temp./diff_pres;
@@ -96,19 +97,18 @@ struc.grad_temp_sm_15 = movmean(struc.grad_temp,15,'omitnan');
 %}
 %==========================================================================
 
-
 % find the largest negative gradient (min)
-[grad_temp_min,grad_temp_ind] = min(strucgrad_temp);
-[grad_doxy_min,grad_doxy_ind] = min(strucgrad_doxy);
+[grad_temp_min,grad_temp_min_ind] = min(struc.grad_temp);
+[grad_doxy_min,grad_doxy_min_ind] = min(struc.grad_doxy);
 
-[grad_temp_min_sm_5,grad_temp_ind_sm_5] = min(strucgrad_temp_sm_5);
-[grad_doxy_min_sm_5,grad_doxy_ind_sm_5] = min(struc_sm_5grad_doxy_sm_5);
+[grad_temp_min_sm_5,grad_temp_min_ind_sm_5] = min(struc.grad_temp_sm_5);
+[grad_doxy_min_sm_5,grad_doxy_min_ind_sm_5] = min(struc.grad_doxy_sm_5);
 
-[grad_temp_min_sm_10,grad_temp_ind_sm_10] = min(strucgrad_temp_sm_10);
-[grad_doxy_min_sm_10,grad_doxy_ind_sm_10] = min(strucgrad_doxy_sm_10);
+[grad_temp_min_sm_10,grad_temp_min_ind_sm_10] = min(struc.grad_temp_sm_10);
+[grad_doxy_min_sm_10,grad_doxy_min_ind_sm_10] = min(struc.grad_doxy_sm_10);
 
-[grad_temp_min_sm_15,grad_temp_ind_sm_15] = min(strucgrad_temp_sm_15);
-[grad_doxy_min_sm_15,grad_doxy_ind_sm_15] = min(strucgrad_doxy_sm_15);
+[grad_temp_min_sm_15,grad_temp_min_ind_sm_15] = min(struc.grad_temp_sm_15);
+[grad_doxy_min_sm_15,grad_doxy_min_ind_sm_15] = min(struc.grad_doxy_sm_15);
 
 % % take the two largest negative gradients
 % [grad_temp_mink,grad_temp_mink_ind] = mink(grad_temp,2);
@@ -182,17 +182,22 @@ struc.OCD_grad_sm_15(isnan(grad_doxy_min_sm_15))=nan;
 par.binwid = 1;
 
 [struc.TCD_grad_grid,struc.TCD_grad_grid_ave,struc.TCD_grad_grid_sd,struc.bincounts_T,struc.lon_grid,struc.lat_grid] = latlon_var_bin(struc.TCD_grad,lon,lat,par);
-[struc.OCD_grad_grid,struc.OCD_grad_grid_ave,struc.OCD_grad_grid_sd,struc.bincounts_O,~,~] = latlon_var_bin(OCD_grad,lon,lat,par);
+[struc.OCD_grad_grid,struc.OCD_grad_grid_ave,struc.OCD_grad_grid_sd,struc.bincounts_O,~,~] = latlon_var_bin(struc.OCD_grad,lon,lat,par);
 
 [struc.TCD_grad_grid_sm_5,struc.TCD_grad_grid_ave_sm_5,struc.TCD_grad_grid_sd_sm_5,struc.bincounts_T_sm_5,~,~] = latlon_var_bin(struc.TCD_grad_sm_5,lon,lat,par);
-[struc.OCD_grad_grid_sm_5,OCD_grad_grid_ave_sm_5,OCD_grad_grid_sd_sm_5,bincounts_O_sm_5,~,~] = latlon_var_bin(struc.OCD_grad_sm_5,lon,lat,par);
+[struc.OCD_grad_grid_sm_5,struc.OCD_grad_grid_ave_sm_5,struc.OCD_grad_grid_sd_sm_5,struc.bincounts_O_sm_5,~,~] = latlon_var_bin(struc.OCD_grad_sm_5,lon,lat,par);
 
-[struc.TCD_grad_grid_sm_10,TCD_grad_grid_ave_sm_10,TCD_grad_grid_sd_sm_10,bincounts_T_sm_,~,~] = latlon_var_bin(struc.TCD_grad_sm_10,lon,lat,par);
-[struc.OCD_grad_grid_sm_10,OCD_grad_grid_ave_sm_10,OCD_grad_grid_sd_sm_10,bincounts_O_sm_10,~,~] = latlon_var_bin(struc.OCD_grad_sm_10,lon,lat,par);
+[struc.TCD_grad_grid_sm_10,struc.TCD_grad_grid_ave_sm_10,struc.TCD_grad_grid_sd_sm_10,struc.bincounts_T_sm_10,~,~] = latlon_var_bin(struc.TCD_grad_sm_10,lon,lat,par);
+[struc.OCD_grad_grid_sm_10,struc.OCD_grad_grid_ave_sm_10,struc.OCD_grad_grid_sd_sm_10,struc.bincounts_O_sm_10,~,~] = latlon_var_bin(struc.OCD_grad_sm_10,lon,lat,par);
 
-[struc.TCD_grad_grid_sm_15,TCD_grad_grid_ave_sm_15,TCD_grad_grid_sd_sm_15,bincounts_T_sm_15,~,~] = latlon_var_bin(struc.TCD_grad_sm_15,lon,lat,par);
-[struc.OCD_grad_grid_sm_15,OCD_grad_grid_ave_sm_15,OCD_grad_grid_sd_sm_15,bincounts_O_sm_15,~,~] = latlon_var_bin(struc.OCD_grad_sm_15,lon,lat,par);
+[struc.TCD_grad_grid_sm_15,struc.TCD_grad_grid_ave_sm_15,struc.TCD_grad_grid_sd_sm_15,struc.bincounts_T_sm_15,~,~] = latlon_var_bin(struc.TCD_grad_sm_15,lon,lat,par);
+[struc.OCD_grad_grid_sm_15,struc.OCD_grad_grid_ave_sm_15,struc.OCD_grad_grid_sd_sm_15,struc.bincounts_O_sm_15,~,~] = latlon_var_bin(struc.OCD_grad_sm_15,lon,lat,par);
 
+struc.lat = lat;
+struc.lon = lon;
+
+% save the data
+save([outdp outdfn],'-struct','struc','-v7.3');
 
 % plot binned values
 figure('visible','off')
@@ -209,7 +214,7 @@ subaxis(2,4,1, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -224,7 +229,7 @@ subaxis(2,4,5, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -238,7 +243,7 @@ subaxis(2,4,2, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave_sm_5); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -253,7 +258,7 @@ subaxis(2,4,6, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.OCD_grad_grid_ave_sm_5); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -267,7 +272,7 @@ subaxis(2,4,3, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_10); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave_sm_10); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -282,7 +287,7 @@ subaxis(2,4,7, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_10); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.OCD_grad_grid_ave_sm_10); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -297,7 +302,7 @@ subaxis(2,4,4, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_15); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave_sm_15); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -312,7 +317,7 @@ subaxis(2,4,8, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_15); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.OCD_grad_grid_ave_sm_15); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -345,7 +350,7 @@ subaxis(2,3,1, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_5-TCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave_sm_5-struc.TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -359,7 +364,7 @@ subaxis(2,3,4, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_5-OCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.OCD_grad_grid_ave_sm_5-struc.OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -372,7 +377,7 @@ subaxis(2,3,2, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_10-TCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave_sm_10-struc.TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -386,7 +391,7 @@ subaxis(2,3,5, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_10-OCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,lat_grid,struc.OCD_grad_grid_ave_sm_10-struc.OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -400,7 +405,7 @@ subaxis(2,3,3, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,TCD_grad_grid_ave_sm_15-TCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.TCD_grad_grid_ave_sm_15-struc.TCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -414,7 +419,7 @@ subaxis(2,3,6, 'Spacing', sp, 'Padding', pad,'Margin',mar)
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
-m_pcolor(lon_grid,lat_grid,OCD_grad_grid_ave_sm_15-OCD_grad_grid_ave); shading flat;
+m_pcolor(struc.lon_grid,struc.lat_grid,struc.OCD_grad_grid_ave_sm_15-struc.OCD_grad_grid_ave); shading flat;
 m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k');
 c = colorbar;
@@ -453,12 +458,12 @@ print(gcf,[outfp outfn],'-dpng','-r300');
 %     subaxis(1,2,1, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
 %     
 %     % bottom x axis
-%     l1 = plot(grad_doxy(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
+%     l1 = plot(struc.grad_doxy(:,pr),-1*struc.ave_pres(:,pr),'k','linewidth',3);
 %     ax1 = gca; % current axes
 %     hold(ax1,'on')
-%     l2 = plot(grad_doxy_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
-%     l3 = plot(grad_doxy_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
-%     l4 = plot(grad_doxy_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
+%     l2 = plot(struc.grad_doxy_sm_5(:,pr),-1*struc.ave_pres(:,pr),'m','linewidth',2);
+%     l3 = plot(struc.grad_doxy_sm_10(:,pr),-1*struc.ave_pres(:,pr),'b','linewidth',2);
+%     l4 = plot(struc.grad_doxy_sm_15(:,pr),-1*struc.ave_pres(:,pr),'g','linewidth',2);
 %     
 %     xlabel(ax1,'Dissolved Oxygen Gradient ($\mu mol/kg/dbar$)')
 %     ylabel(ax1,'Pressure ($dbar$)')
@@ -477,11 +482,11 @@ print(gcf,[outfp outfn],'-dpng','-r300');
 %     l5 = line(doxy(:,pr),-1*pres,'Parent',ax2,'Color','r','linewidth',5);
 %     xlims = xlim;
 %     x = xlims(1):xlims(2); y = ones(size(x));
-%     l6 = line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-%     line(x,-1*OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-%     line(x,-1*OCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
-%     line(x,-1*OCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
-%     line(x,-1*OCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
+%     l6 = line(x,-1*struc.OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*struc.OCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*struc.OCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
+%     line(x,-1*struc.OCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
+%     line(x,-1*struc.OCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
 % 
 % 
 %     xlabel(ax2,'Dissolved Oxygen ($\mu mol/kg$)')
@@ -497,12 +502,12 @@ print(gcf,[outfp outfn],'-dpng','-r300');
 %     % Plot Temperature ========================================================
 % 
 %     subaxis(1,2,2, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
-%     l1 = plot(grad_temp(:,pr),-1*ave_pres(:,pr),'k','linewidth',3);
+%     l1 = plot(struc.grad_temp(:,pr),-1*struc.ave_pres(:,pr),'k','linewidth',3);
 %     ax1 = gca; % current axes
 %     hold(ax1,'on')
-%     l2 = plot(grad_temp_sm_5(:,pr),-1*ave_pres(:,pr),'m','linewidth',2);
-%     l3 = plot(grad_temp_sm_10(:,pr),-1*ave_pres(:,pr),'b','linewidth',2);
-%     l4 = plot(grad_temp_sm_15(:,pr),-1*ave_pres(:,pr),'g','linewidth',2);
+%     l2 = plot(struc.grad_temp_sm_5(:,pr),-1*struc.ave_pres(:,pr),'m','linewidth',2);
+%     l3 = plot(struc.grad_temp_sm_10(:,pr),-1*struc.ave_pres(:,pr),'b','linewidth',2);
+%     l4 = plot(struc.grad_temp_sm_15(:,pr),-1*struc.ave_pres(:,pr),'g','linewidth',2);
 %     xlabel(ax1,'Temperature Gradient ($^\circ C/dbar)$')
 %     ylabel(ax1,'Pressure ($dbar$)')
 %     yt = yticks;
@@ -519,11 +524,11 @@ print(gcf,[outfp outfn],'-dpng','-r300');
 %     l5 = line(temp(:,pr),-1*pres, 'Parent',ax2,'Color','r','linewidth',5);
 %     xlims = xlim;
 %     x = xlims(1):xlims(2); y = ones(size(x));
-%     l6 = line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-%     line(x,-1*TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
-%     line(x,-1*TCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
-%     line(x,-1*TCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
-%     line(x,-1*TCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
+%     l6 = line(x,-1*struc.TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*struc.TCD_grad(pr).*y,'Parent',ax2,'linewidth',3,'Color','k', 'linestyle',':');
+%     line(x,-1*struc.TCD_grad_sm_5(pr).*y,'Parent',ax2,'linewidth',3,'Color','m', 'linestyle',':');
+%     line(x,-1*struc.TCD_grad_sm_10(pr).*y,'Parent',ax2,'linewidth',3,'Color','b', 'linestyle',':');
+%     line(x,-1*struc.TCD_grad_sm_15(pr).*y,'Parent',ax2,'linewidth',3,'Color','g', 'linestyle',':');
 % 
 % 
 %     xlabel(ax2,'Temperature ($^\circ C$)')

@@ -31,14 +31,15 @@ addpath(genpath('../../Local_Tools/'))
 addpath(genpath('../../Data/'))
 
 outfp = '../../Figures/Testing/Vertical_Smoothing/';
-indp = '../../Data/Testing/';
+indp = '../../Data/Testing/Processed/';
+outdp = '../../Data/Testing/Smoothed/';
 
 %--------------------------------------------------------------------------
 % Filesnames
 %--------------------------------------------------------------------------
 
 infn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_processed.mat'];
-outdfn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_smoothing_testing.mat'];
+outdfn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_smoothed.mat'];
 
 %--------------------------------------------------------------------------
 % Other
@@ -96,19 +97,18 @@ struc.grad_temp_sm_15 = movmean(struc.grad_temp,15,'omitnan');
 %}
 %==========================================================================
 
-
 % find the largest negative gradient (min)
-[grad_temp_min,grad_temp_ind] = min(strucgrad_temp);
-[grad_doxy_min,grad_doxy_ind] = min(strucgrad_doxy);
+[grad_temp_min,grad_temp_min_ind] = min(struc.grad_temp);
+[grad_doxy_min,grad_doxy_min_ind] = min(struc.grad_doxy);
 
-[grad_temp_min_sm_5,grad_temp_ind_sm_5] = min(strucgrad_temp_sm_5);
-[grad_doxy_min_sm_5,grad_doxy_ind_sm_5] = min(struc_sm_5grad_doxy_sm_5);
+[grad_temp_min_sm_5,grad_temp_min_ind_sm_5] = min(struc.grad_temp_sm_5);
+[grad_doxy_min_sm_5,grad_doxy_min_ind_sm_5] = min(struc.grad_doxy_sm_5);
 
-[grad_temp_min_sm_10,grad_temp_ind_sm_10] = min(strucgrad_temp_sm_10);
-[grad_doxy_min_sm_10,grad_doxy_ind_sm_10] = min(strucgrad_doxy_sm_10);
+[grad_temp_min_sm_10,grad_temp_min_ind_sm_10] = min(struc.grad_temp_sm_10);
+[grad_doxy_min_sm_10,grad_doxy_min_ind_sm_10] = min(struc.grad_doxy_sm_10);
 
-[grad_temp_min_sm_15,grad_temp_ind_sm_15] = min(strucgrad_temp_sm_15);
-[grad_doxy_min_sm_15,grad_doxy_ind_sm_15] = min(strucgrad_doxy_sm_15);
+[grad_temp_min_sm_15,grad_temp_min_ind_sm_15] = min(struc.grad_temp_sm_15);
+[grad_doxy_min_sm_15,grad_doxy_min_ind_sm_15] = min(struc.grad_doxy_sm_15);
 
 % % take the two largest negative gradients
 % [grad_temp_mink,grad_temp_mink_ind] = mink(grad_temp,2);
@@ -182,7 +182,7 @@ struc.OCD_grad_sm_15(isnan(grad_doxy_min_sm_15))=nan;
 par.binwid = 1;
 
 [struc.TCD_grad_grid,struc.TCD_grad_grid_ave,struc.TCD_grad_grid_sd,struc.bincounts_T,struc.lon_grid,struc.lat_grid] = latlon_var_bin(struc.TCD_grad,lon,lat,par);
-[struc.OCD_grad_grid,struc.OCD_grad_grid_ave,struc.OCD_grad_grid_sd,struc.bincounts_O,~,~] = latlon_var_bin(OCD_grad,lon,lat,par);
+[struc.OCD_grad_grid,struc.OCD_grad_grid_ave,struc.OCD_grad_grid_sd,struc.bincounts_O,~,~] = latlon_var_bin(struc.OCD_grad,lon,lat,par);
 
 [struc.TCD_grad_grid_sm_5,struc.TCD_grad_grid_ave_sm_5,struc.TCD_grad_grid_sd_sm_5,struc.bincounts_T_sm_5,~,~] = latlon_var_bin(struc.TCD_grad_sm_5,lon,lat,par);
 [struc.OCD_grad_grid_sm_5,struc.OCD_grad_grid_ave_sm_5,struc.OCD_grad_grid_sd_sm_5,struc.bincounts_O_sm_5,~,~] = latlon_var_bin(struc.OCD_grad_sm_5,lon,lat,par);
@@ -195,6 +195,9 @@ par.binwid = 1;
 
 struc.lat = lat;
 struc.lon = lon;
+struc.temp = temp;
+struc.doxy = doxy;
+struc.pres = pres;
 
 % save the data
 save([outdp outdfn],'-struct','struc','-v7.3');
