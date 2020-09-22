@@ -31,7 +31,7 @@ addpath(genpath('../../Local_Tools/'))
 addpath(genpath('../../Data/'))
 
 outfp = '../../Figures/Testing/Vertical_Smoothing/';
-indp = '../../Data/Testing/Processed/';
+indp = '../../Data/Testing/';
 
 %--------------------------------------------------------------------------
 % Filesnames
