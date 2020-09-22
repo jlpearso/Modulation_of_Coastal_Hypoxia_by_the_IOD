@@ -449,7 +449,7 @@ mean_doxy_box_S = nanmean(doxy_box_S,2);
 
 
 % Plot Box N ===================================================
-pr = 1;
+pr = 100;
 figure('visible','off')
 setfigsize(1300,750)
 
