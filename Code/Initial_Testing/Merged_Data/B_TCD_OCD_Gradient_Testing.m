@@ -214,20 +214,19 @@ xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
 line(x,-1*OCD_box_N(ind).*y,'Parent',ax2,'linewidth',1,'Color','k', 'linestyle',':');
 
-% % create inset with location of profile
-% hf1=gcf;                                   
-% axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
-% m_proj('mercator','longitudes',[30,120], ...
-%            'latitudes',[-20,30]);
-% hold on
-% %latmin, latmax, lonmin, lonmax,
-% lat_lon_bound_box(latlon_lim_box_N(1,1),latlon_lim_box_N(1,2),...
-%     latlon_lim_box_N(2,1),latlon_lim_box_N(2,2))
-% 
-% % m_scatter(lon_bb,lat_bb,200,'y.'); shading flat;
-% m_coast('patch',[.7 .7 .7],'edgecolor','none');
-% m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
-% title('Bounding Box')
+% create inset with location of profile
+hf1=gcf;                                   
+axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
+m_proj('mercator','longitudes',[30,120], ...
+           'latitudes',[-20,30]);
+hold on
+%latmin, latmax, lonmin, lonmax,
+m_latlon_boundbox(latlon_lim_box_N,'Edgecolor','w','Linewidth',3)
+
+% m_scatter(lon_bb,lat_bb,200,'y.'); shading flat;
+m_coast('patch',[.7 .7 .7],'edgecolor','none');
+m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
+title('Bounding Box')
 
 
 xlabel(ax2,'Dissolved Oxygen ($\mu mol/kg$)')
