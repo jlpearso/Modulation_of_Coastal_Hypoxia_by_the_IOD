@@ -187,7 +187,7 @@ yticklabels(ax2,sprintfc('%d',-1*yt))
 
 % profiles with OCD <=100 dbar
 
-ind = OCD_box_N <= 100;
+ind = OCD_box_N >= 300;
 
 subaxis(1,3,3, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
 
