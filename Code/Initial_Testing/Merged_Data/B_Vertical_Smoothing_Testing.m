@@ -25,14 +25,14 @@ profiles = [266805,266810,304327,305118,304100,30000,30400,30500,306100,...
 %--------------------------------------------------------------------------
 
 % define and add function path
-addpath(genpath('../../Local_Tools/'))
+addpath(genpath('../../../Local_Tools/'))
 
 % add data path
-addpath(genpath('../../Data/'))
+addpath(genpath('../../../Data/'))
 
-outfp = '../../Figures/Testing/Vertical_Smoothing/';
-indp = '../../Data/Testing/Processed/';
-outdp = '../../Data/Testing/Smoothed/';
+outfp = '../../../Figures/Testing/Vertical_Smoothing/';
+indp = '../../../Data/Testing/Processed/';
+outdp = '../../../Data/Testing/Smoothed/';
 
 %--------------------------------------------------------------------------
 % Filesnames
