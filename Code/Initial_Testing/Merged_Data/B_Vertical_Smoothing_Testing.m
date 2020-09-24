@@ -168,6 +168,10 @@ struc.OCD_sm_10(isnan(grad_doxy_min_sm_10))=nan;
 struc.TCD_sm_15(isnan(grad_temp_min_sm_15))=nan;
 struc.OCD_sm_15(isnan(grad_doxy_min_sm_15))=nan;
 
+% set TCD/OCD for depths greater than 400dbar to nans
+
+struc.TCD(struc.TCD>=400) = nan;
+struc.OCD(struc.OCD>=400) = nan;
 
 % TCD_grad(isnan(grad_temp(grad_temp_min_ind)))=nan;
 % OCD_grad(isnan(grad_doxy(grad_doxy_min_ind)))=nan;

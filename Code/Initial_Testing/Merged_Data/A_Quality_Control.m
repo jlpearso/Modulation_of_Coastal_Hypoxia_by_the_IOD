@@ -24,8 +24,8 @@ addpath(genpath('../../../Local_Tools/'))
 % add data path
 addpath(genpath('../../../Data/'))
 
-outfp = '../../Figures/Testing/Data_Processing/';
-outdp = '../../Data/Testing/Processed/';
+outfp = '../../../Figures/Testing/Data_Processing/';
+outdp = '../../../Data/Testing/Processed/';
 
 %--------------------------------------------------------------------------
 % Filesnames
@@ -144,26 +144,21 @@ for vv = 1:length(vars)
         
         % check to make sure it isn't empty and has fewer pts than the
         % threshold
-        if length(tmpvar(~isnan(tmpvar))) <= qc_thresh && ~isempty(tmpvar(~isnan(tmpvar)))
+        if ~isempty(tmpvar(~isnan(tmpvar)))
+            if length(tmpvar(~isnan(tmpvar))) <= qc_thresh
+
+                qc_struc.([varnames{vv} '_qc_counter']) = qc_struc.([varnames{vv} '_qc_counter']) + 1;
+                qc_struc.([varnames{vv} '_qc_lats']) = [qc_struc.([varnames{vv} '_qc_lats']) lat(pp)];
+                qc_struc.([varnames{vv} '_qc_lons']) = [qc_struc.([varnames{vv} '_qc_lons']) lon(pp)];
+                qc_struc.([varnames{vv} '_qc_pr_no']) = [qc_struc.([varnames{vv} '_qc_pr_no']) prof(pp)];
+                qc_struc.([varnames{vv} '_qc_pr_type']) = [qc_struc.([varnames{vv} '_qc_pr_type']) type(pp)];
+
+                struc.(varnames{vv})(:,pp) = NaN(size(tmpvar));
+                % check to make sure its not empty and that it has data above
+                % 500m
+            end
             
-            qc_struc.([varnames{vv} '_qc_counter']) = qc_struc.([varnames{vv} '_qc_counter']) + 1;
-            qc_struc.([varnames{vv} '_qc_lats']) = [qc_struc.([varnames{vv} '_qc_lats']) lat(pp)];
-            qc_struc.([varnames{vv} '_qc_lons']) = [qc_struc.([varnames{vv} '_qc_lons']) lon(pp)];
-            qc_struc.([varnames{vv} '_qc_pr_no']) = [qc_struc.([varnames{vv} '_qc_pr_no']) prof(pp)];
-            qc_struc.([varnames{vv} '_qc_pr_type']) = [qc_struc.([varnames{vv} '_qc_pr_type']) type(pp)];
-            
-            struc.(varnames{vv})(:,pp) = NaN(size(tmpvar));
-            % check to make sure its not empty and that it has data above
-            % 500m
-        elseif ~isempty(tmpvar(~isnan(tmpvar))) && nansum(~isnan(upper_tmpvar)) == 0
-            qc_struc.([varnames{vv} '_qc_counter']) = qc_struc.([varnames{vv} '_qc_counter']) + 1;
-            qc_struc.([varnames{vv} '_qc_lats']) = [qc_struc.([varnames{vv} '_qc_lats']) lat(pp)];
-            qc_struc.([varnames{vv} '_qc_lons']) = [qc_struc.([varnames{vv} '_qc_lons']) lon(pp)];
-            qc_struc.([varnames{vv} '_qc_pr_no']) = [qc_struc.([varnames{vv} '_qc_pr_no']) prof(pp)];
-            qc_struc.([varnames{vv} '_qc_pr_type']) = [qc_struc.([varnames{vv} '_qc_pr_type']) type(pp)];
-            
-        elseif ~isempty(tmpvar(~isnan(tmpvar))) % only consider profiles that aren't all nans to begin with
-            
+            % only consider profiles that aren't all nans to begin with
             qc_struc.([varnames{vv} '_total_no_pr']) = qc_struc.([varnames{vv} '_total_no_pr'])+1;
             
         end
