@@ -114,6 +114,7 @@ struc.grad_temp_sm_15 = movmean(struc.grad_temp,15,'omitnan');
 [grad_temp_min_sm_15,grad_temp_min_ind_sm_15] = min(struc.grad_temp_sm_15);
 [grad_doxy_min_sm_15,grad_doxy_min_ind_sm_15] = min(struc.grad_doxy_sm_15);
 
+
 % % take the two largest negative gradients
 % [grad_temp_mink,grad_temp_mink_ind] = mink(grad_temp,2);
 % [grad_doxy_mink,grad_doxy_mink_ind] = mink(grad_doxy,2);
@@ -170,8 +171,23 @@ struc.OCD_sm_15(isnan(grad_doxy_min_sm_15))=nan;
 
 % set TCD/OCD for depths greater than 400dbar to nans
 
-struc.TCD(struc.TCD>=400) = nan;
-struc.OCD(struc.OCD>=400) = nan;
+% scatter(struc.OCD,grad_doxy_min,'.')
+grad_O_thresh = -5;
+grad_T_thresh = -0.05;
+
+% pres_thresh = 300;
+% 
+struc.TCD(grad_temp_min>=grad_T_thresh) = nan;
+struc.OCD(grad_doxy_min>=grad_O_thresh) = nan;
+
+struc.TCD_sm_5(grad_temp_min_sm_5>=grad_T_thresh) = nan;
+struc.OCD_sm_5(grad_doxy_min_sm_5>=grad_O_thresh) = nan;
+
+struc.TCD_sm_10(grad_temp_min_sm_10>=grad_T_thresh) = nan;
+struc.OCD_sm_10(grad_doxy_min_sm_10>=grad_O_thresh) = nan;
+
+struc.TCD_sm_15(grad_temp_min_sm_15>=grad_T_thresh) = nan;
+struc.OCD_sm_15(grad_doxy_min_sm_15>=grad_O_thresh) = nan;
 
 % TCD_grad(isnan(grad_temp(grad_temp_min_ind)))=nan;
 % OCD_grad(isnan(grad_doxy(grad_doxy_min_ind)))=nan;
