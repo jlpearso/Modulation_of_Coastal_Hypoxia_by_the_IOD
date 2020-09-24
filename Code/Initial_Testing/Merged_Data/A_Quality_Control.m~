@@ -12,7 +12,7 @@ close all; clear all; clc; warning off;
 %--------------------------------------------------------------------------
 
 plot_fig = 1;       % set to 1 to plot figs, 0 to supress
-qc_thresh = 5;     % the min no. of pts that must be in each profile
+qc_thresh = 3;     % the min no. of pts that must be in each profile
 
 %--------------------------------------------------------------------------
 % Paths
@@ -218,8 +218,7 @@ if plot_fig == 1
     % Locations For QC Stats and Type
     %----------------------------------------------------------------------
     
-%     figure('visible','off')
-    figure
+    figure('visible','off')
     setfigsize(1800,400)
     
     colors = {[0 0.4470 0.7410],[0.4940 0.1840 0.5560],[0.4660 0.6740 0.1880],[0.8500 0.3250 0.0980]};
