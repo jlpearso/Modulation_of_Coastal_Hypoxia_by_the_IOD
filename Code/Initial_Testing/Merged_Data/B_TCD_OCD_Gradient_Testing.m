@@ -230,7 +230,6 @@ m_coast('patch',[.7 .7 .7],'edgecolor','none');
 m_grid('background color','k','xtick',([30, 60, 90, 120]), 'ytick',([-20,0,20]));
 title('Bounding Box')
 
-
 xlabel(ax2,'Dissolved Oxygen ($\mu mol/kg$)')
 yt = yticks;
 yticklabels(ax2,sprintfc('%d',-1*yt))

@@ -145,7 +145,7 @@ for vv = 1:length(vars)
         % check to make sure it isn't empty and has fewer pts than the
         % threshold
         if ~isempty(tmpvar(~isnan(tmpvar)))
-            if length(tmpvar(~isnan(tmpvar))) <= qc_thresh
+            if length(tmpvar(~isnan(tmpvar))) <= qc_thresh || isempty(upper_tmpvar(~isnan(upper_tmpvar)))
 
                 qc_struc.([varnames{vv} '_qc_counter']) = qc_struc.([varnames{vv} '_qc_counter']) + 1;
                 qc_struc.([varnames{vv} '_qc_lats']) = [qc_struc.([varnames{vv} '_qc_lats']) lat(pp)];
@@ -156,10 +156,10 @@ for vv = 1:length(vars)
                 struc.(varnames{vv})(:,pp) = NaN(size(tmpvar));
                 % check to make sure its not empty and that it has data above
                 % 500m
+            else  % only consider profiles that aren't all nans to begin with
+
+                qc_struc.([varnames{vv} '_total_no_pr']) = qc_struc.([varnames{vv} '_total_no_pr'])+1;
             end
-            
-            % only consider profiles that aren't all nans to begin with
-            qc_struc.([varnames{vv} '_total_no_pr']) = qc_struc.([varnames{vv} '_total_no_pr'])+1;
             
         end
     end
