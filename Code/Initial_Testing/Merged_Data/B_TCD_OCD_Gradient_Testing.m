@@ -2,7 +2,9 @@ close all; clear all; clc; warning off;
 %% Setup ==================================================================
 %{
 
-    This code applies quality control, reformats,10O
+    There were a few patches in the initial plots that did not match well
+    with Mathei's plots. I took a look at one of those here to find out
+    why.
 
 %}
 %==========================================================================
@@ -192,7 +194,7 @@ ind = OCD_box_N >= 500;
 subaxis(1,3,3, 'Spacing', 0.03, 'Padding', 0.03, 'MR', 0.03,'ML', 0.03,'MB', 0.05,'MT', 0.05);
 
 % bottom x axis
-plot(grad_doxy_box_N(:,ind),-1*ave_pres(:,1),'k','linewidth',1);
+plot(grad_doxy_box_N(:,ind),-1*ave_pres(:,1),'k.','linewidth',1);
 ax1 = gca; % current axes
 
 xlabel(ax1,'Dissolved Oxygen Gradient ($\mu mol/kg/dbar$)')
@@ -209,14 +211,14 @@ ax2 = axes('Position',ax1_pos,...
 
 ax2.XColor = 'r';
 
-line(doxy_box_N(:,ind),-1*pres,'Parent',ax2,'Color','r','linewidth',1);
+line(doxy_box_N(:,ind),-1*pres,'Parent',ax2,'Color','r','linewidth',1,'marker','.');
 xlims = xlim;
 x = xlims(1):xlims(2); y = ones(size(x));
 line(x,-1*OCD_box_N(ind).*y,'Parent',ax2,'linewidth',1,'Color','k', 'linestyle',':');
 
 % create inset with location of profile
 hf1=gcf;                                   
-axes('parent',hf1,'position',[0.67 0.15 0.15 0.3]);  % x y width height
+axes('parent',hf1,'position',[0.75 0.6 0.15 0.3]);  % x y width height
 m_proj('mercator','longitudes',[30,120], ...
            'latitudes',[-20,30]);
 hold on
@@ -370,7 +372,7 @@ yticklabels(ax2,sprintfc('%d',-1*yt))
 % 
 % % save png
 % % outfn = ['Box_S_Profile_' num2str(pr) '.png'];
-% outfn = 'Box_S_Mean_Profile.png';
-% print(gcf,[outfp outfn],'-dpng','-r300'); 
+outfn = 'Box_N.png';
+print(gcf,[outfp outfn],'-dpng','-r300'); 
 
 
