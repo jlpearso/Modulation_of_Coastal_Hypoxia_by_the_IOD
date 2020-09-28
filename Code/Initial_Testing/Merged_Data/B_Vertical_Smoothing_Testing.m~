@@ -172,34 +172,22 @@ struc.OCD_sm_15(isnan(grad_doxy_min_sm_15))=nan;
 % set TCD/OCD for depths greater than 400dbar to nans
 
 % scatter(struc.OCD,grad_doxy_min,'.')
-% grad_O_thresh = -1.5;
-% grad_T_thresh = -0.07;
+grad_O_thresh = -;
+grad_T_thresh = -0.05;
 
-pres_thresh = 400;
-
-struc.TCD(struc.TCD>=pres_thresh) = nan;
-struc.OCD(struc.OCD>=pres_thresh) = nan;
-
-struc.TCD_sm_5(struc.TCD_sm_5>=pres_thresh) = nan;
-struc.OCD_sm_5(struc.OCD_sm_5>=pres_thresh) = nan;
-
-struc.TCD_sm_10(struc.TCD_sm_10>=pres_thresh) = nan;
-struc.OCD_sm_10(struc.OCD_sm_10>=pres_thresh) = nan;
-
-struc.TCD_sm_15(struc.TCD_sm_15>=pres_thresh) = nan;
-struc.OCD_sm_15(struc.OCD_sm_15>=pres_thresh) = nan;
-
-% struc.TCD(grad_temp_min>=grad_T_thresh) = nan;
-% struc.OCD(grad_doxy_min>=grad_O_thresh) = nan;
+% pres_thresh = 300;
 % 
-% struc.TCD_sm_5(grad_temp_min_sm_5>=grad_T_thresh) = nan;
-% struc.OCD_sm_5(grad_doxy_min_sm_5>=grad_O_thresh) = nan;
-% 
-% struc.TCD_sm_10(grad_temp_min_sm_10>=grad_T_thresh) = nan;
-% struc.OCD_sm_10(grad_doxy_min_sm_10>=grad_O_thresh) = nan;
-% 
-% struc.TCD_sm_15(grad_temp_min_sm_15>=grad_T_thresh) = nan;
-% struc.OCD_sm_15(grad_doxy_min_sm_15>=grad_O_thresh) = nan;
+struc.TCD(grad_temp_min>=grad_T_thresh) = nan;
+struc.OCD(grad_doxy_min>=grad_O_thresh) = nan;
+
+struc.TCD_sm_5(grad_temp_min_sm_5>=grad_T_thresh) = nan;
+struc.OCD_sm_5(grad_doxy_min_sm_5>=grad_O_thresh) = nan;
+
+struc.TCD_sm_10(grad_temp_min_sm_10>=grad_T_thresh) = nan;
+struc.OCD_sm_10(grad_doxy_min_sm_10>=grad_O_thresh) = nan;
+
+struc.TCD_sm_15(grad_temp_min_sm_15>=grad_T_thresh) = nan;
+struc.OCD_sm_15(grad_doxy_min_sm_15>=grad_O_thresh) = nan;
 
 % TCD_grad(isnan(grad_temp(grad_temp_min_ind)))=nan;
 % OCD_grad(isnan(grad_doxy(grad_doxy_min_ind)))=nan;
