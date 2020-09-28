@@ -31,7 +31,7 @@ outdp = '../../Data/Testing/Processed/';
 % Filesnames
 %--------------------------------------------------------------------------
 
-indfn = 'all_adt_sla_global_twosat_phy_l4_vDT2018_daily_1994_2018.nc';
+indfn = 'all_adt_sla_global_twosat_phy_l4_vDT2018_monthly_1994_2018';
 % outdfn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_processed.mat'];
 
 %--------------------------------------------------------------------------
