@@ -52,6 +52,11 @@ end
 infn = indfn;
 readncfile
 
+base = datenumber("1950-01-01");
+date_number = base + time;
+date_string = datestr(date_number);
+
+
 %% Formatting =============================================================
 %{
     Many of the functions I use later on require these to all be of the
