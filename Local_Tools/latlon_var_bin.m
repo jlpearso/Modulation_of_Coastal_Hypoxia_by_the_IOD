@@ -1,12 +1,5 @@
 function [var_binned,bincounts,lat_grid,lon_grid] = latlon_var_bin(var,lon,lat,gridspacing)
 
-
-% % get rid of the nans
-% ind = ~isnan(var);
-% var = var(ind);
-% lat = lat(ind);
-% lon = lon(ind);
-
 % get lat lon lims
 minlat=min(lat);
 maxlat=max(lat);

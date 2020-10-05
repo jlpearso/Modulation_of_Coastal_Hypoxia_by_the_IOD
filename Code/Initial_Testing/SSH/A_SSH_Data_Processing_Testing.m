@@ -19,19 +19,19 @@ qc_thresh = 3;     % the min no. of pts that must be in each profile
 %--------------------------------------------------------------------------
 
 % define and add function path
-addpath(genpath('../../Local_Tools/'))
+addpath(genpath('../../../Local_Tools/'))
 
 % add data path
-addpath(genpath('../../Data/Raw/ssh_AVISO/'))
+addpath(genpath('../../../Data/Raw/ssh_AVISO/'))
 
-outfp = '../../Figures/Testing/Data_Processing/';
-outdp = '../../Data/Testing/Processed/';
+outfp = '../../../Figures/Testing/Data_Processing/';
+outdp = '../../../Data/Testing/Processed/';
 
 %--------------------------------------------------------------------------
 % Filesnames
 %--------------------------------------------------------------------------
 
-indfn = 'all_adt_sla_global_twosat_phy_l4_vDT2018_monthly_1994_2018';
+indfn = 'all_adt_sla_global_twosat_phy_l4_vDT2018_monthly_1994_2018.nc';
 % outdfn = ['Profiles_qc_thresh_' num2str(qc_thresh) '_processed.mat'];
 
 %--------------------------------------------------------------------------
