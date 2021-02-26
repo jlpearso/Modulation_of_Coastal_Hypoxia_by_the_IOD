@@ -1,3 +1,11 @@
+def ylabel_map(ax,label,x = -0.15, y = 0.5, fsz = 18):
+    ax.text(x, y, label, va='bottom', ha='center',
+        rotation='vertical', rotation_mode='anchor',
+        transform=ax.transAxes, fontsize = fsz)
+    
+#===============================================================================================================
+
+
 def o2sat(temp,psal):
     ''' 
         CALCULATE OXYGEN CONCENTRATION AT SATURATION f(T,S)
