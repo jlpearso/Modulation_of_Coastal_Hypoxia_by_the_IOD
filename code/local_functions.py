@@ -1,3 +1,15 @@
+def get_default_args(func):
+    import inspect
+    signature = inspect.signature(func)
+    return {
+        k: v.default
+        for k, v in signature.parameters.items()
+        if v.default is not inspect.Parameter.empty
+    }
+
+#===============================================================================================================
+
+
 def ylabel_map(ax,label,x = -0.15, y = 0.5, fsz = 18):
     ax.text(x, y, label, va='bottom', ha='center',
         rotation='vertical', rotation_mode='anchor',
@@ -52,8 +64,8 @@ def o2sat(temp,psal):
 
 #===============================================================================================================
 
-def add_single_vert_cbar(fig,p,label, extend = 'neither'):
-    cbar_ax = fig.add_axes([0.925, 0.125, 0.015, 0.75])
+def add_single_vert_cbar(fig,p,label, extend = 'neither', loc=[0.925, 0.125, 0.015, 0.75]):
+    cbar_ax = fig.add_axes(loc)
     cbar = fig.colorbar(p,cax=cbar_ax, pad=0.04, extend = extend)
     cbar.set_label(label)
     return cbar
