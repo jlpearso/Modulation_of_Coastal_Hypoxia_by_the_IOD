@@ -1,3 +1,5 @@
+cbounds = [48.5,105,-1.5,33]
+
 def get_default_args(func):
     import inspect
     signature = inspect.signature(func)
@@ -84,7 +86,7 @@ def add_letter(ax, letter, x = 0.01, y = .945, fontsize = 12, weight='bold'):
 
 #===============================================================================================================
 
-def add_land(ax,bounds = [48.5,102.5,-1.5,33], countries = False, rivers = False, lakes = False, facecolor = 'w'):
+def add_land(ax,bounds = cbounds, countries = False, rivers = False, lakes = False, facecolor = 'w'):
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
     from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
@@ -118,7 +120,7 @@ def add_land(ax,bounds = [48.5,102.5,-1.5,33], countries = False, rivers = False
 
 #===============================================================================================================
 
-def add_bathy(ax,bounds = [48.5,102.5,-1.5,33]):
+def add_bathy(ax,bounds = cbounds, zorder = 0):
     # datasets: https://www.naturalearthdata.com/downloads/10m-physical-vectors/
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
@@ -146,7 +148,7 @@ def add_bathy(ax,bounds = [48.5,102.5,-1.5,33]):
         
         bathym = cfeature.NaturalEarthFeature(name='bathymetry_{}_{}'.format(letter, level),
                                      scale='10m', category='physical')
-        ax.add_feature(bathym, facecolor=cmap(norm(level)), edgecolor='face',zorder = 0)
+        ax.add_feature(bathym, facecolor=cmap(norm(level)), edgecolor='face',zorder = zorder)
     ax.axes.axis('tight')
     ax.set_extent(bounds, crs=ccrs.PlateCarree())
     return None
@@ -154,7 +156,7 @@ def add_bathy(ax,bounds = [48.5,102.5,-1.5,33]):
 #===============================================================================================================
 
 # still working on this
-def add_bathy_clines(ax,bounds, lmax = 10000):
+def add_bathy_clines(ax,bounds = cbounds, lmax = 10000):
     # datasets: https://www.naturalearthdata.com/downloads/10m-physical-vectors/
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
@@ -256,14 +258,14 @@ def add_single_bathy_cline(ax,level):
     
 #===============================================================================================================
 
-def add_box(ax,box_bounds,clrs):
+def add_box(ax,box_bounds,clrs, fill = False, linewidth = 2):
     
     # lonmin,lonmax, latmin, latmax 
     from matplotlib.patches import Rectangle
     for ii, box in enumerate(box_bounds): 
         p = Rectangle(
         (box[0], box[2]), box[1]-box[0], box[3]-box[2],
-        linewidth=2,fill=False,color=clrs[ii], zorder = 3)
+        linewidth=linewidth,fill=False,color=clrs[ii], zorder = 3)
 
         ax.add_patch(p)
         rx, ry = p.get_xy()
@@ -393,12 +395,119 @@ def monthly_clim(data):
 
 #===============================================================================================================
 
+def find_coast(arr):
+    import itertools
+    import xarray as xr
+    import numpy as np
+    
+    # create empty lists to add row and col info to
+    rowind = []
+    colind = []
+
+    # create an array of indices
+    rows = np.arange(arr.shape[0])
+    cols = np.arange(arr.shape[1])
+
+    # find if the sum of a block around a point is a nan (meaning one of the values at least must have been a nan)
+    for row,col in itertools.product(rows,cols):
+#         cond = (~np.isnan(arr[row,col])) & (np.isnan(np.sum(arr[max(0,row-1):min(arr.shape[0],row+2),max(0,col-1):min(arr.shape[1],col+2)])))
+        rowcond = (np.isnan(np.sum(arr[max(0,row-1):min(arr.shape[0],row+2),col])))
+        colcond = (np.isnan(np.sum(arr[row,max(0,col-1):min(arr.shape[1],col+2)])))
+
+#         if  (~np.isnan(arr[row,col])) & cond):
+        if  (~np.isnan(arr[row,col])) & (rowcond | colcond):
+            rowind.append(rows[row].tolist())
+            colind.append(cols[col].tolist())
+    
+    return np.array(rowind), np.array(colind)
+
+#===============================================================================================================
 # mask coastlines ---------------------------------------------------------------------#
-def mask_coast(c_lon,c_lat,bounds):
+def mask_coast(inlat,inlon,inmask,mask_lat, mask_lon):
+    import xarray as xr
+    import numpy as np
+    
+    inlat = np.array(inlat)
+    inlon = np.array(inlon)
+    lat = np.array(mask_lat)
+    lon = np.array(mask_lon)
+    inmask = np.array(inmask)
+
+    outmask=[]
+
+    for lo,la in zip(inlon,inlat):
+
+        if len(lon[lon<=lo])>0 and len(lat[lat>=la])>0 and len(lon[lon>=lo])>0 and len(lat[lat<=la])>0:
+            lon_lim = [lon[lon<=lo][-1],lon[lon>=lo][0]]
+            lat_lim = [lat[lat<=la][-1],lat[lat>=la][0]]
+
+            mask_lon = (lon == lon_lim[0]) | (lon == lon_lim[1])
+            mask_lat = (lat == lat_lim[0]) | (lat == lat_lim[1])
+
+            mask_tmp = inmask[mask_lat,:]
+            mask_tmp = mask_tmp[:,mask_lon]
+
+            outmask.append(np.mean(mask_tmp)>0)
+        else:
+            outmask.append(False)
+
+    outmask = np.array(outmask)
+
+    return outmask
+
+#===============================================================================================================
+# mask coastlines ---------------------------------------------------------------------#
+
+def mask_coast_roobaert_wide(c_lat,c_lon,bounds = cbounds):
+    import xarray as xr
+    import numpy as np
+    
+    data=xr.open_dataset('/tigress/GEOCLIM/LRGROUP/shared_data/pco2_flux_coastal_Roobaert/mask_ocean.nc')
+    mask_coast=np.array(data.mask_coastal2).astype(int).T
+    lat=np.array(data.latitude)
+    lon=np.array(data.longitude)
+    
+    inlat = np.array(c_lat)
+    inlon = np.array(c_lon)
+
+    mask_lon=np.logical_and(lon>bounds[0],lon<bounds[1])
+    mask_lat=np.logical_and(lat>bounds[2],lat<bounds[3])
+
+    lon=lon[mask_lon]
+    lat=lat[mask_lat]
+
+    mask_coast=mask_coast[mask_lat]
+    mask_coast=mask_coast[:,mask_lon]
+
+    lonlon,latlat=np.meshgrid(lon,lat)
+
+    # what are these for? I should probably fix it
+    lon_dot=np.array([70,70])
+    lat_dot=np.array([10,19.5])
+
+    mask=[]
+    for lo,la in zip(c_lon,c_lat):
+        if len(lon[lon<=lo])>0 and len(lat[lat>=la])>0 and len(lon[lon>=lo])>0 and len(lat[lat<=la])>0:
+            lon_lim=[lon[lon<=lo][-1],lon[lon>=lo][0]]
+            lat_lim=[lat[lat<=la][-1],lat[lat>=la][0]]
+            mask_lon=np.logical_or(lon==lon_lim[0],lon==lon_lim[1])
+            mask_lat=np.logical_or(lat==lat_lim[0],lat==lat_lim[1])
+            mask_tmp=mask_coast[mask_lat]
+            mask_tmp=mask_tmp[:,mask_lon]
+            mask.append(np.mean(mask_tmp)>0)
+        else:
+            mask.append(False)
+    mask=np.array(mask)
+    return mask
+
+#===============================================================================================================
+
+# mask coastlines ---------------------------------------------------------------------#
+def mask_coast_roobaert_narrow(c_lat,c_lon,bounds = cbounds):
     import xarray as xr
     import numpy as np
     data=xr.open_dataset('/tigress/GEOCLIM/LRGROUP/shared_data/pco2_flux_coastal_Roobaert/mask_ocean.nc')
-    mask_coast=np.array(data.mask_coastal2).astype(int).T
+    mask_coast=np.array(data.mask_coastal1).astype(int).T
     lat=np.array(data.latitude)
     lon=np.array(data.longitude)
 
@@ -487,9 +596,34 @@ def rgb_to_dec(value):
     return [v/256 for v in value]
 
 #===============================================================================================================
+def regrid_2_woa(invar,inlat,inlon):
+    import numpy as np
+    
+    # read woa file to get grid
+    ds_WOA = "xr.open_dataset(../data/woa_processed.nc)"
+    
+    xx,yy = np.meshgrid(inlon,inlat)
+    xx = xx.flatten()
+    yy = yy.flatten()
+
+    xx_WOA,yy_WOA = np.meshgrid(ds_WOA.lon,ds_WOA.lat)
+
+    invar_WOA = np.zeros((len(ds_WOA.lat),len(ds_WOA.lon)))*np.nan
+    invar = np.array(invar)
+
+    # find the lons and lats of TCD vals at this time
+
+    points = np.array( (xx,yy) ).T
+    temp_values = temp_var.flatten()
+
+    invar_WOA = griddata(points, temp_values, (xx_WOA,yy_WOA) ,method='linear')
+
+    return np.array(invar_WOA,dtype = float), np.array(ds_WOA.lat), np.array(ds_WOA.lon)
+
+#===============================================================================================================
 
 # binning for one variable ------------------------------------------------------------#
-def latlonbin(invar,lat,lon,bounds,binwidth):
+def latlonbin(invar,lat,lon,bounds = cbounds,binwidth = 0.25):
     import numpy as np
     import pandas as pd
     
@@ -543,7 +677,7 @@ def latlonbin(invar,lat,lon,bounds,binwidth):
 #===============================================================================================================
 
 # month of min doxy  --------------------------------------------------------------------#
-def latlonbin_min_doxy(doxy,lat,lon,bounds,binwidth):
+def latlonbin_min_doxy(doxy,lat,lon,bounds = cbounds,binwidth = 0.25):
     import numpy as np
     import pandas as pd
     
@@ -614,7 +748,7 @@ def latlonbin_min_doxy(doxy,lat,lon,bounds,binwidth):
 #===============================================================================================================
 
 # month of max doxy -----------------------------------------------------------------#
-def latlonbin_max_doxy(doxy,lat,lon,bounds,binwidth):
+def latlonbin_max_doxy(doxy,lat,lon,bounds = cbounds,binwidth = 0.25):
     import numpy as np
     import pandas as pd
     
@@ -684,7 +818,7 @@ def latlonbin_max_doxy(doxy,lat,lon,bounds,binwidth):
 
 #===============================================================================================================
 
-def IOD_year_group(invar,inlat,inlon,intime,begin,end,IODyears):
+def IOD_year_group(invar,inlat,inlon,intime,begin,end,IODyears, region = 'none'):
     import numpy as np
     data= []
     lat = []
@@ -696,13 +830,49 @@ def IOD_year_group(invar,inlat,inlon,intime,begin,end,IODyears):
         start_time = str(year) + begin
         end_time = str(year+1) + end
         time_slice = slice(start_time, end_time)
-        data.extend(np.array(invar.sel(time=time_slice)))
-        lat.extend(np.array(inlat.sel(time=time_slice)))
-        lon.extend(np.array(inlon.sel(time=time_slice)))
-        time.extend(np.array(intime.sel(time=time_slice)))
-        t = intime.sel(time=time_slice)
-        month.extend(np.array(t.dt.month))
-        season.extend(np.array(t.dt.season))
+#         print(year)
+        
+        if region == 'wAS':
+            data.extend(np.array(invar.sel(time_wAS=time_slice)))
+            lat.extend(np.array(inlat.sel(time_wAS=time_slice)))
+            lon.extend(np.array(inlon.sel(time_wAS=time_slice)))
+            time.extend(np.array(intime.sel(time_wAS=time_slice)))
+            t = intime.sel(time_wAS=time_slice)
+            month.extend(np.array(t.dt.month))
+            season.extend(np.array(t.dt.season))
+        elif region == 'eAS':
+            data.extend(np.array(invar.sel(time_eAS=time_slice)))
+            lat.extend(np.array(inlat.sel(time_eAS=time_slice)))
+            lon.extend(np.array(inlon.sel(time_eAS=time_slice)))
+            time.extend(np.array(intime.sel(time_eAS=time_slice)))
+            t = intime.sel(time_eAS=time_slice)
+            month.extend(np.array(t.dt.month))
+            season.extend(np.array(t.dt.season))
+        elif region == 'wBoB':
+            data.extend(np.array(invar.sel(time_wBoB=time_slice)))
+            lat.extend(np.array(inlat.sel(time_wBoB=time_slice)))
+            lon.extend(np.array(inlon.sel(time_wBoB=time_slice)))
+            time.extend(np.array(intime.sel(time_wBoB=time_slice)))
+            t = intime.sel(time_wBoB=time_slice)
+            month.extend(np.array(t.dt.month))
+            season.extend(np.array(t.dt.season))
+        elif region == 'eBoB':
+            data.extend(np.array(invar.sel(time_eBoB=time_slice)))
+            lat.extend(np.array(inlat.sel(time_eBoB=time_slice)))
+            lon.extend(np.array(inlon.sel(time_eBoB=time_slice)))
+            time.extend(np.array(intime.sel(time_eBoB=time_slice)))
+            t = intime.sel(time_eBoB=time_slice)
+            month.extend(np.array(t.dt.month))
+            season.extend(np.array(t.dt.season))
+        elif region == 'none':
+            data.extend(np.array(invar.sel(time=time_slice)))
+            lat.extend(np.array(inlat.sel(time=time_slice)))
+            lon.extend(np.array(inlon.sel(time=time_slice)))
+            time.extend(np.array(intime.sel(time=time_slice)))
+            t = intime.sel(time=time_slice)
+            month.extend(np.array(t.dt.month))
+            season.extend(np.array(t.dt.season))
+        
         
     return np.array(data),np.array(lat),np.array(lon),np.array(time),np.array(month),np.array(season)
 
@@ -767,7 +937,7 @@ def IOD_year_group_area(invar,begin,end,IODyears,cbounds=[48.5, 102.5,-1.5, 33],
 #===============================================================================================================
 
 # correlation for TCD and OCD --------------------------------------------------------------#
-def interannual_space_correlate(var1,var2,lat,lon,bounds = [48.5,102.5,-1.5,33],binwidth=1):
+def interannual_space_correlate(var1,var2,lat,lon,bounds = cbounds,binwidth=1):
     import numpy as np
     from scipy import stats 
     from tqdm import tqdm
