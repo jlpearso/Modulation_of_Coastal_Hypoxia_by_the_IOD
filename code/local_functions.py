@@ -1,5 +1,14 @@
 cbounds = [48.5,105,-1.5,33]
 
+#===============================================================================================================
+
+def as_si(x, ndp):
+    s = '{x:0.{ndp:d}e}'.format(x=x, ndp=ndp)
+    m, e = s.split('e')
+    return r'{m:s}\times 10^{{{e:d}}}'.format(m=m, e=int(e))
+
+#===============================================================================================================
+
 def get_default_args(func):
     import inspect
     signature = inspect.signature(func)
@@ -12,10 +21,10 @@ def get_default_args(func):
 #===============================================================================================================
 
 
-def ylabel_map(ax,label,x = -0.15, y = 0.5, fsz = 18):
-    ax.text(x, y, label, va='bottom', ha='center',
+def ylabel_map(ax,label,x = -0.15, y = 0.5, fontsize = 18, color = 'k'):
+    ax.text(x, y, label, va='bottom', ha='center',color = color,
         rotation='vertical', rotation_mode='anchor',
-        transform=ax.transAxes, fontsize = fsz)
+        transform=ax.transAxes, fontsize = fontsize)
     
 #===============================================================================================================
 
@@ -30,8 +39,8 @@ def o2sat(temp,psal):
         
         Code is based on: 
         Garcia and Gordon (1992) oxygen solubility in seawater, better fitting equations. L&O 37: 1307-1312
-        using the coefficients for umol/kg from Bensen and Krause (1984)
-        
+        using the coefficients for umol/kg from the combined fit column of Table 1
+      
         Input:   temp = temperature (degree C)
                  sal  = practical salinity (PSS-78)
                  
@@ -74,35 +83,38 @@ def add_single_vert_cbar(fig,p,label, extend = 'neither', loc=[0.925, 0.125, 0.0
     
 #===============================================================================================================
 
-def add_text(ax, text, x = 0.01, y = .945, fontsize = 12, color = 'k'):
-    ax.annotate(text, xy=(x,y), xycoords="axes fraction", fontsize = fontsize, color = color)
+def add_text(ax, text, x = 0.01, y = .945, fontsize = 12, color = 'k', weight = 'normal', rotation = 0, style = 'normal'):
+    ax.annotate(text, xy=(x,y), xycoords="axes fraction", fontsize = fontsize, color = color, style = style,
+               weight=weight, rotation = rotation)
     return None
 
 #===============================================================================================================
 
-def add_letter(ax, letter, x = 0.01, y = .945, fontsize = 12, weight='bold'):
-    ax.annotate(letter, xy=(x,y), xycoords="axes fraction", fontsize = fontsize, weight='bold')
+def add_letter(ax, letter, x = 0.01, y = .945, fontsize = 12, weight='bold', color = 'k'):
+    ax.annotate(letter, xy=(x,y), xycoords="axes fraction", fontsize = fontsize, weight='bold', color = color)
     return None
 
 #===============================================================================================================
 
-def add_land(ax,bounds = cbounds, countries = False, rivers = False, lakes = False, facecolor = 'w'):
+def add_land(ax,bounds = cbounds, countries = False, rivers = False, lakes = False, facecolor = 'w',
+             lcolor='dimgray',ccolor = '#878787',rcolor = 'cyan'):
+#             lcolor = '#b5651d',ccolor = '#ca9852',rcolor = '#3944bc'):
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
     from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
     import cartopy.feature as cfeature
     land = cfeature.NaturalEarthFeature('physical', 'land', '50m',
                                             edgecolor='face')
-    ax.add_feature(land,color='gray',zorder = 1)
+    ax.add_feature(land,color=lcolor,zorder = 1) # #b5651d
     ax.background_patch.set_facecolor(facecolor)
-    ax.coastlines(resolution='50m',zorder = 2)
+#     ax.coastlines(resolution='50m',zorder = 2, color = 'gray)
     if countries == True:
         countries_10m = cfeature.NaturalEarthFeature('cultural', 'admin_0_countries', '10m')
-        ax.add_feature(countries_10m,facecolor='None', edgecolor='k', linewidth=1)
+        ax.add_feature(countries_10m,facecolor='None', edgecolor=ccolor, linewidth=0.5) # #65350F
 #         ax.add_feature(cfeature.BORDERS)
     if rivers == True:
         rivers_10m = cfeature.NaturalEarthFeature('physical', 'rivers_lake_centerlines', '10m')
-        ax.add_feature(rivers_10m, facecolor='None', edgecolor='#404040', linewidth=0.5)
+        ax.add_feature(rivers_10m, facecolor='None', edgecolor=rcolor, linewidth=0.25) # '#404040'
 #         ax.add_feature(cfeature.RIVERS)
     if lakes == True:
         ax.add_feature(cfeature.LAKES, alpha=0.5)
@@ -116,6 +128,7 @@ def add_land(ax,bounds = cbounds, countries = False, rivers = False, lakes = Fal
     g.yformatter = LATITUDE_FORMATTER
     ax.axes.axis('tight')
     ax.set_extent(bounds, crs=ccrs.PlateCarree())
+    ax.outline_patch.set_linewidth(0.5)
     return g
 
 #===============================================================================================================
@@ -156,7 +169,7 @@ def add_bathy(ax,bounds = cbounds, zorder = 0):
 #===============================================================================================================
 
 # still working on this
-def add_bathy_clines(ax,bounds = cbounds, lmax = 10000):
+def add_bathy_clines(ax,bounds = cbounds, lmax = 10000, linewidth = 2):
     # datasets: https://www.naturalearthdata.com/downloads/10m-physical-vectors/
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
@@ -187,7 +200,7 @@ def add_bathy_clines(ax,bounds = cbounds, lmax = 10000):
         
         bathym = cfeature.NaturalEarthFeature(name='bathymetry_{}_{}'.format(letter, level), scale='10m', category='physical')
         bathym = cascaded_union(list(bathym.geometries()))
-        ax.add_geometries(bathym, facecolor='none', edgecolor='black', linestyle='solid', linewidth=2, crs=ccrs.PlateCarree())
+        ax.add_geometries(bathym, facecolor='none', edgecolor='black', linestyle='solid', linewidth=linewidth, crs=ccrs.PlateCarree())
     
     ax.axes.axis('tight')
     ax.set_extent(bounds, crs=ccrs.PlateCarree())
@@ -230,7 +243,7 @@ def add_bathy_cbar(fig,ax,label='m below sea level',pos = [0.13, .18, 0.23, 0.03
 
 #===============================================================================================================
 
-def add_single_bathy_cline(ax,level):
+def add_single_bathy_cline(ax, level,linewidth = 2, color = 'k'):
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
     import cartopy.feature as cfeature
@@ -254,7 +267,7 @@ def add_single_bathy_cline(ax,level):
     
     bathym = cfeature.NaturalEarthFeature(name='bathymetry_{}_{}'.format(name_list[0][0], name_list[0][1]), scale='10m', category='physical')
     bathym = cascaded_union(list(bathym.geometries()))
-    ax.add_geometries(bathym, facecolor='none', edgecolor='black', linestyle='solid', linewidth=2, crs=ccrs.PlateCarree())
+    ax.add_geometries(bathym, facecolor='none', edgecolor=color, linestyle='solid', linewidth=linewidth, crs=ccrs.PlateCarree())
     
 #===============================================================================================================
 
